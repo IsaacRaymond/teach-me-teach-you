@@ -1,0 +1,80 @@
+/*@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+@import url('https://fonts.googleapis.com/css?family=Krub');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300');
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
+*/
+
+/*@import url('https://fonts.googleapis.com/css?family=Krub');*/
+
+body {
+  margin: 0px;
+}
+
+#center-left-box{
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background-color: BLUE;
+}
+
+#center-right-box{
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: RED;
+}
+
+#class-choice{
+  height: 100px;
+  width: 400px;
+  font-size: 50px;
+}
+
+#submit-button{
+  text-align: center;
+  transition: all .2s ease-in-out;
+  font-size: 60px;
+
+  -webkit-user-select: none; /* Safari */
+-moz-user-select: none; /* Firefox */
+-ms-user-select: none; /* IE10+/Edge */
+user-select: none; /* Standard */
+
+  height: 80px;
+  width: 300px;
+  color: white;
+  background: black;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+#submit-button:hover{
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+
+/*
+
+#center-text{
+  height: auto;
+  font-weight:500;
+  font-size: 40px;
+  clear: both;
+  padding: 10px 10px;
+  position: absolute;
+top: 50%;
+left: 50%;
+transform: translateX(-50%) translateY(-50%);
+}
+
+#class-number{
+  bottom: 10px;
+}
+*/
