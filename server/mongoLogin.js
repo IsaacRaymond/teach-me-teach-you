@@ -22,7 +22,7 @@ function mongoDbConnect(name, email){
       } else {
         collection.insertOne(newStudent, (error, result) =>{
           if(error){console.log(error);}
-          
+
         })
       }
     });

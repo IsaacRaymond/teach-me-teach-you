@@ -4,6 +4,8 @@ const app = express();
 const path = require("path");
 const mongoLogin = require("./server/mongoLogin");
 const mongoMakeClass = require("./server/mongoMakeClass");
+const mongoGetClass = require("./server/mongoGetClass");
+const mongoNewStudent = require("./server/mongoNewStudent");
 const dotenv = require('dotenv');
 
 app.use(express.static(__dirname + '/'));
@@ -18,7 +20,20 @@ app.post('/', function(req, res){
 });
 
 app.post('/create-class', function(req, res){
-  mongoMakeClass(req.body.email, req.body.name);
+  mongoMakeClass(req.body.email, req.body.name, req.body.textbook);
+});
+
+/*app.post('/get-class', function(req, res){
+  mongoGetClass(req.body.email);
+  res.send('butts');
+})*/
+
+app.post('/get-class', (req, res) =>{
+  mongoGetClass(req.body.email, res);
+});
+
+app.post('/add-student', (req, res) =>{
+  mongoNewStudent(req.body.email, req.body.name);
 });
 
 

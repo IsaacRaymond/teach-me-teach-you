@@ -4,15 +4,19 @@
   <meta name="google-signin-scope" content="profile email">
   <meta name="google-signin-client_id" content="355481478238-nan3pf99bdcpcehsho3lic6make3t1aj.apps.googleusercontent.com">
   <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <script src="./multiple_roles.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="./select.js"></script>
 </head>
-<LINK REL=StyleSheet HREF="multiple_roles.css" TYPE="text/css" MEDIA=screen>
+<LINK REL=StyleSheet HREF="select.css" TYPE="text/css" MEDIA=screen>
   <body>
     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
     <a href="#" onclick="signOut();">Sign out</a>
   </body>
   <div id="center-box">
-    <div id="table">
-    </div>
+    What are you here to do?<br/><br/>
+        <button onclick="continueClass()">Continue a Class</button></a>
+        <button onclick="joinClass()">Join a Class</button>
+        <button onclick="viewClass()">View a Class</button>
+        <button onclick="createClass()">Create a Class</button>
   </div>
 </html>

@@ -23,6 +23,6 @@ function onSignIn(googleUser) {
       name: profile.getName(),
       email: profile.getEmail()
     })
-    window.location.href = "./class/create_class/create_class.html";
+    window.location.href = "./class/select/select.html";
   }
 }
