@@ -29,7 +29,7 @@ function continueClass(){
       if(result){
         window.location.href ="../work-on-class/work-on-class.html"
       } else {
-        alert("You are not currently enrolled in a class");
+        console.log("You are not currently enrolled in a class");
       }
     }
 });

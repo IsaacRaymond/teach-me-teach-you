@@ -14,7 +14,7 @@ function mongoGetClass(email, res){
       if(result){
         return res.send(result.class);
       } else {
-        alert("You are not currently enrolled in a class");
+        console.log("You are not currently enrolled in a class");
       }
     });
 

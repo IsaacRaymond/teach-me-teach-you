@@ -1,4 +1,4 @@
-var list = {
+var topicsList = {
   "1.1": [
     "Identify Counting Numbers and Whole Numbers",
     "Identify the Place Value of a Digit",
@@ -11,3 +11,10 @@ var list = {
 
   ]
 };
+
+var identifyCountingNumbersandWholeNumbers = {
+  "1": {
+    "text1": "The cat and the dog eat butts",
+    "text2": "Do you like it?"
+  }
+}

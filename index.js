@@ -33,7 +33,7 @@ app.post('/get-class', (req, res) =>{
 });
 
 app.post('/add-student', (req, res) =>{
-  mongoNewStudent(req.body.email, req.body.name);
+  mongoNewStudent(req.body.email, req.body.name, req.body.classes);
 });
 
 

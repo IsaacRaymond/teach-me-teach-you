@@ -1,9 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(){
-
+  var text1 = document.getElementById("question-text-1").innerHTML = identifyCountingNumbersandWholeNumbers["1"].text1;
+  var text2 = document.getElementById("question-text-2").innerHTML = identifyCountingNumbersandWholeNumbers["1"].text2;
 });
-
-var email;
-var name;
 
 function onSignIn(googleUser) {
   // Useful data for your client-side scripts:
@@ -26,4 +24,11 @@ function signOut() {
     console.log('User signed out.');
     window.location.href = "../google.html";
   });
+}
+
+var identifyCountingNumbersandWholeNumbers = {
+  "1": {
+    "text1": "The cat and the dog eat butts",
+    "text2": "Do you like it?"
+  }
 }

@@ -12,17 +12,21 @@ function mongoMakeClass(email, name, textbook){
 
     var numberClasses = collection.count().then(result => {
       console.log('the number of other classes is ' + result);
+
+      var date = new Date();
+
       collection.insertOne({
         id: result+1,
         teacher: email,
         textbook: textbook,
-        students: {}
+        students: [],
+        date: date
       }, (error, result) =>{
         if(error){console.log(error);}
       });
     });
-      console.log('the number of other classes is ' + numberClasses);
-    });
+
+  });
 }
 
 
