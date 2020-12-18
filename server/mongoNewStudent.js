@@ -1,8 +1,8 @@
 const MongoClient = require('mongodb');
 
-function mongoNewStudent(email, name, classes){
+function mongoNewStudent(email, name, classes, res){
 
-  const uri = "mongodb+srv://isaacraymond:"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority";
+    const uri = "mongodb+srv://isaacraymond2:"+process.env.PASSWORD+"@isaactesting.7scyt.mongodb.net/<dbname>?retryWrites=true&w=majority";
 
   MongoClient.connect(uri, function(err, client){
     if (err) throw err;
@@ -17,15 +17,14 @@ function mongoNewStudent(email, name, classes){
 
     collection.findOne({"students": email}).then(result => {
       if(result){
-        console.log("You are already a student in this class");
+        res.send({"newStudent": false})
       } else{
-        collection.updateOne(myquery, newValues, function(err, res){
+        collection.updateOne(myquery, newValues, function(err, response){
           if (err) throw err;
-          console.log('should be updated');
+          res.send({"newStudent": true});
         });
       }
     });
-
   });
 }
 

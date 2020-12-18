@@ -8,6 +8,8 @@ const mongoGetClass = require("./server/mongoGetClass");
 const mongoNewStudent = require("./server/mongoNewStudent");
 const dotenv = require('dotenv');
 
+var email, name;
+
 app.use(express.static(__dirname + '/'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -17,10 +19,12 @@ app.get('/', function(req, res){
 
 app.post('/', function(req, res){
   mongoLogin(req.body.name, req.body.email);
+  setName(req.body.name);
+  setEmail(req.body.email);
 });
 
 app.post('/create-class', function(req, res){
-  mongoMakeClass(req.body.email, req.body.name, req.body.textbook);
+  mongoMakeClass(email, req.body.textbook);
 });
 
 /*app.post('/get-class', function(req, res){
@@ -29,12 +33,28 @@ app.post('/create-class', function(req, res){
 })*/
 
 app.post('/get-class', (req, res) =>{
-  mongoGetClass(req.body.email, res);
+  mongoGetClass(email, res);
 });
 
 app.post('/add-student', (req, res) =>{
-  mongoNewStudent(req.body.email, req.body.name, req.body.classes);
+  mongoNewStudent(email, name, req.body.classes, res);
 });
+
+function setName(x){
+  name = x;
+}
+
+function getName(){
+  return name;
+}
+
+function setEmail(x){
+  email = x;
+}
+
+function getEmail(){
+  return email;
+}
 
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));

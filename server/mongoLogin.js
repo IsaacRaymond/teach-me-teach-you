@@ -1,8 +1,9 @@
 const MongoClient = require('mongodb');
+const dotenv = require('dotenv');
 
 function mongoDbConnect(name, email){
-
-  const uri = "mongodb+srv://isaacraymond:"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/<dbname>?retryWrites=true&w=majority";
+    const uri = "mongodb+srv://isaacraymond2:"+process.env.PASSWORD+"@isaactesting.7scyt.mongodb.net/<dbname>?retryWrites=true&w=majority";
+    //const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@"+process.env.MONGOSHIT+".mongodb.net/test?retryWrites=true&w=majority";
 
   MongoClient.connect(uri, function(err, client){
     if (err) throw err;

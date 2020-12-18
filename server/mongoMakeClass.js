@@ -1,8 +1,8 @@
 const MongoClient = require('mongodb');
 
-function mongoMakeClass(email, name, textbook){
+function mongoMakeClass(email, textbook){
 
-  const uri = "mongodb+srv://isaacraymond:"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority";
+    const uri = "mongodb+srv://isaacraymond2:"+process.env.PASSWORD+"@isaactesting.7scyt.mongodb.net/<dbname>?retryWrites=true&w=majority";
 
   MongoClient.connect(uri, function(err, client){
     if (err) throw err;
@@ -11,10 +11,7 @@ function mongoMakeClass(email, name, textbook){
     var collection = database.collection("classes");
 
     var numberClasses = collection.count().then(result => {
-      console.log('the number of other classes is ' + result);
-
       var date = new Date();
-
       collection.insertOne({
         id: result+1,
         teacher: email,
