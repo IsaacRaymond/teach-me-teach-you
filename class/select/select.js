@@ -16,12 +16,12 @@ auth2.signOut().then(function () {
 }
 
 function continueClass(){
-  $.post('/get-class',
+  $.post('/continue-class',
   {
 
   }).then(function(response){
     if(response.classEnrollment){
-      window.location.href ="../work-on-class/work-on-class.html"
+      window.location.href ="../continue-class/continue-class.html"
     } else {
       alert("You are not currently enrolled in a class");
     }

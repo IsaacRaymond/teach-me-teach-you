@@ -4,11 +4,11 @@ const app = express();
 const path = require("path");
 const mongoLogin = require("./server/mongoLogin");
 const mongoMakeClass = require("./server/mongoMakeClass");
-const mongoGetClass = require("./server/mongoGetClass");
-const mongoNewStudent = require("./server/mongoNewStudent");
+const mongoContinueClass = require("./server/mongoContinueClass");
+const mongoJoinClass = require("./server/mongoJoinClass");
 const dotenv = require('dotenv');
 
-var email, name;
+var email, name, classNumber
 
 app.use(express.static(__dirname + '/'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,17 +27,14 @@ app.post('/create-class', function(req, res){
   mongoMakeClass(email, req.body.textbook);
 });
 
-/*app.post('/get-class', function(req, res){
-  mongoGetClass(req.body.email);
-  res.send('butts');
-})*/
-
-app.post('/get-class', (req, res) =>{
-  mongoGetClass(email, res);
+app.post('/continue-class', (req, res) =>{
+  mongoContinueClass(email, res);
+  console.log('classNumber is ' + getClassNumber());
+  //mongoContinueClass(email, res);
 });
 
-app.post('/add-student', (req, res) =>{
-  mongoNewStudent(email, name, req.body.classes, res);
+app.post('/join-class', (req, res) =>{
+  mongoJoinClass(email, name, req.body.classes, res);
 });
 
 function setName(x){
@@ -56,7 +53,20 @@ function getEmail(){
   return email;
 }
 
+function getClassNumber(){
+  return classNumber
+}
+
+function setClassNumber(x){
+  classNumber = x
+}
+
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
 
-module.exports = app;
+
+
+module.exports = {
+  app,
+  setClassNumber
+};

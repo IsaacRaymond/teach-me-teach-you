@@ -11,7 +11,27 @@ auth2.signOut().then(function () {
 }
 
 function displayTable(){
-  document.getElementById("table").innerHTML = `
+
+  var tableString = "<table><tr><th>Section</th><th>Topic</th><th>Learned</th><th>Taught</th>"
+
+  fetch("../../topics/prealgebra.json")
+  .then(response => response.json())
+  .then(json => {
+    for (var key in json){
+      tableString += "<tr>"
+      if (json.hasOwnProperty(key)){
+        json[key].forEach(function(entry){
+          tableString += "<th>"+key+"</th><th>"+entry+"</th><th></th><th></th></tr>"
+        })//fill out a row for each topic in the section
+      }
+    }//looping through each key-value pair in JSON
+
+      document.getElementById("table").innerHTML = tableString
+  })
+
+
+
+  /*
   <table>
   <tr>
     <th>Topic</th>
@@ -50,4 +70,5 @@ function displayTable(){
   </tr>
   </table>
   `;
+  */
 }

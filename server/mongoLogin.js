@@ -1,8 +1,8 @@
 const MongoClient = require('mongodb');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config();
 
 function mongoDbConnect(name, email){
-    const uri = "mongodb+srv://isaacraymond2:"+process.env.PASSWORD+"@isaactesting.7scyt.mongodb.net/<dbname>?retryWrites=true&w=majority";
+  const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority";
     //const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@"+process.env.MONGOSHIT+".mongodb.net/test?retryWrites=true&w=majority";
 
   MongoClient.connect(uri, function(err, client){
@@ -10,7 +10,8 @@ function mongoDbConnect(name, email){
 
     const newStudent = {
       "name":name,
-      "email":email
+      "email":email,
+      "class": 0
     }
 
     var database = client.db("tmty");
@@ -18,7 +19,6 @@ function mongoDbConnect(name, email){
 
     var studentsEmail = collection.findOne({"email":email}).then(result => {
       if(result){
-        console.log("email address found");
 
       } else {
         collection.insertOne(newStudent, (error, result) =>{
