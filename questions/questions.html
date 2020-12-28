@@ -4,7 +4,13 @@
   <meta name="google-signin-scope" content="profile email">
   <meta name="google-signin-client_id" content="355481478238-nan3pf99bdcpcehsho3lic6make3t1aj.apps.googleusercontent.com">
   <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <script src="./questions.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <!--<script type="text/javascript" id="MathJax-script"
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>-->
+<script id="questions"  src="./questions.js"></script>
+  <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
 </head>
 <LINK REL=StyleSheet HREF="questions.css" TYPE="text/css" MEDIA=screen>
   <body>
@@ -12,24 +18,24 @@
     <a href="#" onclick="signOut();">Sign out</a>
     <br/>
     <div id="box-container">
-    <div id="center-left-box">
-      <div id="question-text-1">
-        yo what's up
+      <div id="center-left-box">
+        <div id="question-text-1">
+          yo what's up
+        </div>
+        <div id="question-text-2">
+        </div>
+        <div class="mc-container" id="mc-container">
+          <div class="mc-option" id="mc-option-1">MC 1</div>
+          <div class="mc-option" id="mc-option-2">MC 2</div>
+          <div class="mc-option" id="mc-option-3">MC 3</div>
+          <div class="mc-option" id="mc-option-4">MC 4</div>
+          <div class="mc-option" id="mc-option-5">MC 5</div>
+          <div class="mc-option" id="mc-option-6">MC 6</div>
+        </div><!-- end mc container-->
+      </div><!-- end center-left-box-->
+      <div id="center-right-box">
+        When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]
       </div>
-      <div id="question-text-2">
-      </div>
-      <div class="mc-container">
-      <div class="mc-option" id="mc-option-1">MC 1</div>
-      <div class="mc-option" id="mc-option-2">MC 2</div>
-      <div class="mc-option" id="mc-option-3">MC 3</div>
-      <div class="mc-option" id="mc-option-4">MC 4</div>
-      <div class="mc-option" id="mc-option-5">MC 5</div>
-      <div class="mc-option" id="mc-option-6">MC 6</div>
-    </div><!-- end mc container-->
-    </div><!-- end center-left-box-->
-    <div id="center-right-box">
-      hey
-    </div>
-  </div><!-- end box-container-->
+    </div><!-- end box-container-->
   </body>
-</html>
+  </html>

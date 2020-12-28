@@ -10,6 +10,8 @@ const dotenv = require('dotenv');
 
 var email, name, classNumber
 
+app.set('view engine', 'html');
+
 app.use(express.static(__dirname + '/'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -36,6 +38,14 @@ app.post('/continue-class', (req, res) =>{
 app.post('/join-class', (req, res) =>{
   mongoJoinClass(email, name, req.body.classes, res);
 });
+
+app.get('/questions/', (req, res) => {
+  console.log(req.query)
+  console.log(req.query.questionName)
+  res.redirect('../questions/questions.html?haters=hate')
+})
+
+
 
 function setName(x){
   name = x;
