@@ -1,6 +1,6 @@
 //question 2 is the only part that is currently permitted to have LaTeX
 
-var question1 = "Determine which of the following numbers are (a) counting numbers and (b) whole numbers"
+var question1 = "Kiss and lick my asshole"
 var question2 = "\\frac{2}{3}"
 
 var a = Math.floor(Math.random()*3) + 1

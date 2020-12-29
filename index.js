@@ -19,6 +19,10 @@ app.get('/', function(req, res){
   res.sendFile(path.join(__dirname, './google.html'));
 });
 
+app.get("/current-progress", function(req, res){
+  
+})
+
 app.post('/', function(req, res){
   mongoLogin(req.body.name, req.body.email);
   setName(req.body.name);
@@ -31,21 +35,15 @@ app.post('/create-class', function(req, res){
 
 app.post('/continue-class', (req, res) =>{
   mongoContinueClass(email, res);
-  console.log('classNumber is ' + getClassNumber());
-  //mongoContinueClass(email, res);
 });
 
 app.post('/join-class', (req, res) =>{
   mongoJoinClass(email, name, req.body.classes, res);
 });
 
-app.get('/questions/', (req, res) => {
-  console.log(req.query)
-  console.log(req.query.questionName)
-  res.redirect('../questions/questions.html?haters=hate')
+app.post('/topic-completion', (req, res) => {
+
 })
-
-
 
 function setName(x){
   name = x;
