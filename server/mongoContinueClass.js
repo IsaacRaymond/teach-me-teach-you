@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb');
 var importedFile = require("../index.js")
 
-function mongoContinueClass(email, res){
+function mongoContinueClass(name, email, res){
 
   const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority";
 
@@ -12,8 +12,9 @@ function mongoContinueClass(email, res){
     var collection = database.collection("classes");
 
     //var classNumber = {"id": parseInt(classes)};
+    var queryString = "students."+name+".email"
 
-    collection.findOne({"students": email}).then(result => {
+    collection.findOne({[queryString]: email}).then(result => {
       if(result){
         res.send({classEnrollment: true})
       } else{

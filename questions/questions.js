@@ -1,12 +1,16 @@
-
+var topic, section, textbook
 
 document.addEventListener("DOMContentLoaded", function(){
   const queryString = window.location.search
   const urlParams = new URLSearchParams(queryString)
 
+  topic = urlParams.get('topic')
+  section = urlParams.get('section')
+  textbook = urlParams.get('text')
+
   var scr = document.createElement('script')
   head = document.head || document.getElementByTagName('head')[0]
-  scr.src = "./"+urlParams.get('text')+"/"+ urlParams.get('section') +"/"+urlParams.get('topic')+".js"
+  scr.src = "./"+urlParams.get('text')+"/"+ section +"/"+topic+".js"
   scr.aysnyc = false
   head.insertBefore(scr, head.firstChild)
   scr.onload = function(){
@@ -16,7 +20,6 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 function loopAndRenderMathJax(){
-
   document.getElementById('question-text-1').innerHTML = question1
 
   renderMathJax('question-text-2', question2)
@@ -48,9 +51,20 @@ function renderMathJax(htmlID, newValue){
 
 function answerSelect(selection){
   if( (selection-1) == correctAnswerIndex){
-    alert("hurray!")
+    $.post('../../question-correct', {
+      topic: topic,
+      section: section,
+    }).then(response=>{
+      if(response.isTopicComplete){
+        alert('You do not have to continue working on this topic.  You have completed enough!')
+        window.location.href = "http://localhost:3000/class/continue-class/continue-class.html"
+      } else {
+        alert("Nicely done!  You can keep working on this topic or you can use the back arrow")
+        window.location.href = "../../questions/questions.html?text="+textbook+"&section="+section+"&topic="+topic
+      }
+    })
   } else {
-    alert("boo")
+    alert("Your answer choice is incorrect")
   }
 }
 
