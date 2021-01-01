@@ -10,56 +10,59 @@ function mongoJoinClass(email, name, classes, res){
     var database = client.db("tmty")
     var collection = database.collection("classes")
 
-    var classNumber = {"id": parseInt(classes)}
-    var newStudentPush = { $push: {"students": email}}
-
     var text
+
+    var classNumber = {"id": parseInt(classes)}
+
 
     //This query is to obtain the textbook
     collection.findOne(classNumber).then(result => {
       if(result){
         var text = result.textbook
 
-        var queryString = "students."+name+".email"
+        var studentQuery = "students."+name+".email"
 
-        //Check to see if the student is enrolled in another course (one course per email)
-        collection.findOne({[queryString]: email}).then(result => {
-          if(result){
-            //This student has already been found on another class roster
-            res.send({"newStudent": false})
-          } else{
-            fs.readFile('./topics/'+text+'.json', (err, data) => {
-              if(err) throw err
-
-              let json = JSON.parse(data)
-              let topics = json.topics
-
-              var testing = "students."+name
-
-              newStudentPush = {
-                $set: {
-                  [testing]: {
-                    name: name,
-                    email: email,
-                    topics
-                  }
-                }
-              }
-              
-              collection.updateOne(classNumber, newStudentPush, function(err, response){
-                if (err) throw err;
-                res.send({"newStudent": true})
-              })
-            })//end read file
-          }
-        })//close findOne student in class
+        collection.countDocuments({[studentQuery]:email}).then(result => {
+          if(result >=6){
+            res.send({"tooManyClasses": true})
+          } else {
+            readingFile(name, email, text, collection, classNumber, res)
+            }
+          })//Close countDocuments//
       } else {
         res.send({"noClass": true})
       }
     })
-
-
   }) //close MongoClient connect
+}//close mongoJoinClass
+
+function readingFile(name, email, text, collection, classNumber, res){
+  var queryString = "students."+name+".email"
+
+  fs.readFile('./topics/'+text+'.json', (err, data) => {
+    if(err) throw err
+
+    let json = JSON.parse(data)
+    let topics = json.topics
+
+    var testing = "students."+name
+
+    var newStudentPush = {
+      $set: {
+        [testing]: {
+          name: name,
+          email: email,
+          topics
+        }
+      }
+    }
+
+    collection.updateOne(classNumber, newStudentPush, function(err, response){
+      if (err) throw err;
+      res.send({"newStudent": true})
+    })
+
+  })//close readFile
 }
 
 module.exports = mongoJoinClass;

@@ -22,8 +22,8 @@ function createNewStudent(){
       window.location.href = "../select/select.html"
     } else if (response.noClass){
       alert("There is no class that corresponds to this class number")
-    } else if (!response.newStudent){
-      alert("You are already a member of a course")
+    } else if (response.tooManyClasses){
+      alert("You can only participate in a maximum of 5 courses")
       window.location.href = "../select/select.html"
     }
 

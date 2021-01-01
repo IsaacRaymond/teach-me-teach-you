@@ -10,27 +10,29 @@ function mongoCreateClass(email, textbook, res){
     var database = client.db("tmty");
     var collection = database.collection("classes");
 
-    var numberClasses = collection.count().then(result => {
+
+    collection.countDocuments({teacher: email}).then(result => {
       if(result >= 5){
         res.send({tooManyClasses: true})
-      }
-        var date = new Date()
-        collection.insertOne({
-          id: result+1,
-          teacher: email,
-          textbook: textbook,
-          students: {},
-          date: date
-        }, (error, result) =>{
-          if(error){console.log(error)}
-        })
-        res.send({created: true})
-    }).then (result=>{
-
-    })
-
-  });
+      } else {
+        collection.countDocuments({}).then(totalAmount=>{
+          var date = new Date()
+          collection.insertOne({
+            id: totalAmount+1,
+            teacher: email,
+            textbook: textbook,
+            students: {},
+            date: date
+          }, (error, result) =>{
+            if(error){console.log(error)}
+          })//end insert
+          res.send({created: true})
+        })//end countDocuments2
+      }//end else
+    })//end countDocuments 1
+  })
 }
 
 
-module.exports = mongoCreateClass;
+
+    module.exports = mongoCreateClass;

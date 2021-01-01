@@ -22,6 +22,8 @@ function continueClass(){
   }).then(function(response){
     if(response.classEnrollment){
       window.location.href ="../continue-class/continue-class.html"
+    } else if (response.multipleClasses){
+      loadClass(response.classNumbers)
     } else {
       alert("You are not currently enrolled in a class");
     }
@@ -38,4 +40,37 @@ function createClass(){
 
 function viewClass(){
   window.location.href ="../view-class/view-class.html"
+}
+
+function loadClass(classNumbers){
+  var multipleClassMessage = document.createElement('div')
+  var inputBox = document.createElement('div')
+  var button = document.createElement('div')
+  multipleClassMessage.innerHTML = "<div style='font-size: 20px;'>Please select the class you would like to work on.</div>"
+  inputBox.innerHTML = getDropdownHTML(classNumbers)
+  button.innerHTML = "<button style = 'font-size: 20px;' onclick = 'enteredClass()'>Load class</button>"
+  document.getElementById("message").appendChild(multipleClassMessage)
+  document.getElementById("message").appendChild(inputBox)
+  document.getElementById("message").appendChild(button)
+}
+
+function getDropdownHTML(classNumbers){
+  var innerHTMLText = "<select id='select-class-number'>"
+  classNumbers.forEach(x => {
+    innerHTMLText += '<option style = "font-weight: 20px;" value="'+x+'">'+x+'</option>'
+  })
+  innerHTMLText += "</select>"
+  return innerHTMLText
+}
+
+function enteredClass(){
+  console.log("enteredClass")
+  var classNumber = document.getElementById("select-class-number").value
+
+  $.get('/class-information',
+  {
+    classNumber: classNumber
+  }).then( response => {
+    window.location.href ="../continue-class/continue-class.html?classNumber="+classNumber
+  })
 }

@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb');
 const dotenv = require('dotenv').config();
 
-function mongoGetProgress(email){
+function mongoGetClasses(name, email, res){
   const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority";
     //const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@"+process.env.MONGOSHIT+".mongodb.net/test?retryWrites=true&w=majority";
 
@@ -9,13 +9,17 @@ function mongoGetProgress(email){
     if (err) throw err;
 
     var database = client.db("tmty")
-    var studentCollection = database.collection("students")
+    var collection = database.collection("classes")
 
-    studentCollection.findOne({"email": email}).then(result => {
-      console.log(result)
+    var queryString = "students."+name+".email"
+
+    var classNumbers = []
+
+    collection.find({[queryString]: email}).toArray((e, result)=>{
+      result.forEach(classItem => classNumbers.push(classItem.id))
+      res.send({classes: classNumbers, multipleClasses: true})
     })
-  });
+  })
 }
 
-
-module.exports = mongoGetProgress;
+module.exports = mongoGetClasses;

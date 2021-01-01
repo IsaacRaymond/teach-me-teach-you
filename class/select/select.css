@@ -39,3 +39,11 @@ button:hover{
   color: black;
   cursor: pointer;
 }
+
+option{
+  font-size: 20px;
+}
+
+select{
+  font-size: 20px;
+}

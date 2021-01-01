@@ -14,13 +14,19 @@ function mongoContinueClass(name, email, res){
     //var classNumber = {"id": parseInt(classes)};
     var queryString = "students."+name+".email"
 
-    collection.findOne({[queryString]: email}).then(result => {
-      if(result){
+    var classNumbers = []
+
+    collection.find({[queryString]: email}).toArray((e, result)=>{
+      result.forEach(classItem => classNumbers.push(classItem.id))
+
+      if(classNumbers.length == 1){
         res.send({classEnrollment: true})
+      } else if (classNumbers.length >1){
+        res.send({multipleClasses: true, classNumbers: classNumbers})
       } else{
         res.send({classEnrollment: false})
       }
-    });
+    })
 
 /*
     var studentsEmail = collection.findOne({"email":email}).then(result => {
