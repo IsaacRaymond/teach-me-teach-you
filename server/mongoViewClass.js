@@ -10,30 +10,20 @@ function mongoViewClass(email, res){
     var database = client.db("tmty")
     var collection = database.collection("classes")
 
-//FIXME:  Neex to display options if the teacher has multiple classes
-    collection.find({"teacher": email}).then(result => {
-      if(!result){
-        alert("You are not currently enrolled in a class")
+        var listClassesString = ""
+
+    collection.find({"teacher": email}).toArray((e, result)=>{
+      var classList = []
+
+      if(result.length>0){
+        result.forEach(classObject => {
+          listClassesString += "<option value="+classObject.id+">Class number "+classObject.id+"</option>"
+        })
+        res.send({listClassesString: listClassesString})
       } else {
-        console.log(result)
-        res.send({"classes": ["class one, class two"]})
+        res.send({noClass: true})
       }
     })
-
-/*
-    var numberClasses = collection.count().then(result => {
-      var date = new Date();
-      collection.insertOne({
-        id: result+1,
-        teacher: email,
-        textbook: textbook,
-        students: [],
-        date: date
-      }, (error, result) =>{
-        if(error){console.log(error);}
-      });
-    });
-*/
   });
 }
 

@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb');
 
-function mongoClassInformation(classNumber, email, res){
+function mongoGetClassJSONForTeacher(classNumber, name, email, res){
 
   const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority";
 
@@ -13,15 +13,15 @@ function mongoClassInformation(classNumber, email, res){
     var queryString = "students."+name+".email"
 
     var query = {
-      id: classNumber,
-      [queryString]: email
+      id: parseInt(classNumber),
+      teacher: email
     }
 
     collection.findOne(query).then(result => {
-      console.log(result)
+      res.send(result.students[name].topics)
     })
   })
 }
 
 
-module.exports = mongoClassInformation;
+module.exports = mongoGetClassJSONForTeacher;

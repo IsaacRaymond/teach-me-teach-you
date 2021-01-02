@@ -64,13 +64,7 @@ function getDropdownHTML(classNumbers){
 }
 
 function enteredClass(){
-  console.log("enteredClass")
   var classNumber = document.getElementById("select-class-number").value
 
-  $.get('/class-information',
-  {
-    classNumber: classNumber
-  }).then( response => {
-    window.location.href ="../continue-class/continue-class.html?classNumber="+classNumber
-  })
+  window.location.href ="../continue-class/continue-class.html?classNumber="+classNumber
 }

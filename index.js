@@ -9,7 +9,8 @@ const mongoJoinClass = require("./server/mongoJoinClass")
 const mongoGetClasses = require("./server/mongoGetClasses")
 const mongoViewClass = require("./server/mongoViewClass")
 const mongoQuestionCorrect = require("./server/mongoQuestionCorrect")
-const mongoClassInformation = require("./server/mongoClassInformation")
+const mongoGetClassJSON = require("./server/mongoGetClassJSON")
+const mongoGetClassJSONForTeacher = require("./server/mongoGetClassJSONForTeacher")
 const dotenv = require('dotenv')
 
 var email, name
@@ -55,12 +56,17 @@ app.post('/question-correct', (req, res) => {
   mongoQuestionCorrect(name, email, req.body.section, req.body.topic, res)
 })
 
-app.get('view-class', (req, res) => {
+app.get('/view-class', (req, res) => {
+  console.log('server side')
   mongoViewClass(email, res)
 })
 
-app.get('class-information', (req, res) =>{
-  mongoClassInformation(req.body.classNumber, email, res)
+app.post('/get-class-json', (req, res) =>{
+  mongoGetClassJSON(req.body.classNumber, name, email, res)
+})
+
+app.post("/get-class-json-for-teacher", function(req, res){
+  mongoGetClassJSONForTeacher(req.body.classNumber, name, email, res)
 })
 
 
