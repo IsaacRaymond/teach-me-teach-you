@@ -3,11 +3,11 @@ document.addEventListener("DOMContentLoaded", function(){
 })
 
 function signOut() {
-var auth2 = gapi.auth2.getAuthInstance()
-auth2.signOut().then(function () {
-  console.log('User signed out.')
-  window.location.href = "../../google.html"
-})
+  var auth2 = gapi.auth2.getAuthInstance()
+  auth2.signOut().then(function () {
+    console.log('User signed out.')
+    window.location.href = "../../google.html"
+  })
 }
 
 function displayTable(){
@@ -15,25 +15,36 @@ function displayTable(){
   const urlParams = new URLSearchParams(queryString)
 
   var classNumber = parseInt(urlParams.get('classNumber'))
+  var text = urlParams.get('text')
 
-  var tableString = "<table><tr><th>Section</th><th>Topic</th><th>Questions Left</th><th>Taught</th>"
+  var tableString = "<table><tr><th>Student Name</th><th>Section Number</th><th>Percentage Completed</th><th>Number Taught</th>"
 
   $.post('/get-class-json-for-teacher',
   {
     classNumber: classNumber
   }).then(json => {
-    console.log(json)
-      for (var key in json){
-        console.log('key is ' + key)
-        tableString += "<tr>"
-        if (json.hasOwnProperty(key)){
-          for (var topic in json[key]){
-            var noSpace = topic.replace(/\s/g, '')
-            tableString += "<th>"+key+"</th><th><a href = ../../questions/questions.html?text="+textName+"&section="+key+"&topic="+noSpace+">"+topic+"</></th><th>"+json[key][topic].numberLeft+"</th><th>"+json[key][topic].numberTaught+"</th></tr>"
-          }//fill out a row for each topic in the section
+    for (var studentName in json.students){
+      console.log('studentName is ' + studentName)
+      //Every new student is a new row
+      tableString += "<tr>"
+      var totalNumberTopics = 0
+      var totalNumberLeft = 0
+      var numberTaught = 0
+      for (var sectionNumber in json.students[studentName].topics){
+        console.log(sectionNumber)
+        for (var topicName in json.students[studentName].topics[sectionNumber]){
+          totalNumberLeft += json.students[studentName].topics[sectionNumber][topicName].numberLeft
+          numberTaught = json.students[studentName].topics[sectionNumber][topicName].numberTaught
+          totalNumberTopics++
         }
-      }//looping through each key-value pair in JSON
+        var percentageCompleted = ((totalNumberTopics*3 - totalNumberLeft)/(3*totalNumberTopics))*100
 
-        document.getElementById("table").innerHTML = tableString
-    })
+        tableString +="<th>"+studentName+"</th><th>"+sectionNumber+"</th><th>"+percentageCompleted+"</th><th>"+numberTaught+"</th>"
+        tableString += "</tr>"
+
+      }
+      //start a new row after every student
+    }
+    document.getElementById("table").innerHTML = tableString
+  })
 }

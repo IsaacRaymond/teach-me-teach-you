@@ -1,3 +1,5 @@
+var text
+
 document.addEventListener("DOMContentLoaded", function(){
   getTeacherClasses();
 });
@@ -12,7 +14,8 @@ auth2.signOut().then(function () {
 
 function viewClass(){
   var classSelection = document.getElementById('list-classes').value
-  window.location.href = "./instructor-view-class/instructor-view-class.html?classNumber="+classSelection
+  console.log(text)
+  window.location.href = "./instructor-view-class/instructor-view-class.html?classNumber="+classSelection+"&text="+text
 }
 
 function getTeacherClasses(){
@@ -27,6 +30,8 @@ function getTeacherClasses(){
     if(response.noClass){
       alert("You are not currently enrolled as an instructor in a class")
     } else {
+      text = response.text
+      console.log(text)
       document.getElementById("list-classes").innerHTML = response.listClassesString
     }
   })

@@ -21,7 +21,7 @@ function continueClass(){
 
   }).then(function(response){
     if(response.classEnrollment){
-      window.location.href ="../continue-class/continue-class.html"
+      window.location.href ="../continue-class/continue-class.html?classNumber="+response.classNumber
     } else if (response.multipleClasses){
       loadClass(response.classNumbers)
     } else {

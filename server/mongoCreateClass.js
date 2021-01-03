@@ -2,7 +2,7 @@ const MongoClient = require('mongodb');
 
 function mongoCreateClass(email, textbook, res){
 
-  const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority";
+  const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority"
 
   MongoClient.connect(uri, function(err, client){
     if (err) throw err;

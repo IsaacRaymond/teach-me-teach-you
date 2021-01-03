@@ -24,11 +24,17 @@ function mongoQuestionCorrect(name, email, section, topic, res){
     }
 
     collection.findOne(filter).then(result=>{
-      if(result.students[name].topics[section][topic].numberLeft <= 0){
-        res.send({isTopicComplete: true})
+      var numberLeft = result.students[name].topics[section][topic].numberLeft
+
+      if(numberLeft <= 0){
+        res.send({topicComplete: true, classNumber:result.id})
       } else {
-        collection.updateOne(filter, update).then(result => {
-          res.send({isTopicComplete: false})
+        collection.updateOne(filter, update).then(result2 => {
+          if (numberLeft <= 1){
+            res.send({topicComplete: true, classNumber:result.id})
+          } else {
+            res.send({topicComplete: false})
+          }
         })
       }
     })

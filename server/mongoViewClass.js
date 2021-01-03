@@ -10,16 +10,18 @@ function mongoViewClass(email, res){
     var database = client.db("tmty")
     var collection = database.collection("classes")
 
-        var listClassesString = ""
+    var listClassesString = ""
 
     collection.find({"teacher": email}).toArray((e, result)=>{
       var classList = []
+
+      console.log(result)
 
       if(result.length>0){
         result.forEach(classObject => {
           listClassesString += "<option value="+classObject.id+">Class number "+classObject.id+"</option>"
         })
-        res.send({listClassesString: listClassesString})
+        res.send({listClassesString: listClassesString, text: result[0].textbook})
       } else {
         res.send({noClass: true})
       }

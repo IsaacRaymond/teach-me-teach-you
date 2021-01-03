@@ -13,6 +13,8 @@ const mongoGetClassJSON = require("./server/mongoGetClassJSON")
 const mongoGetClassJSONForTeacher = require("./server/mongoGetClassJSONForTeacher")
 const dotenv = require('dotenv')
 
+const uploadFile = require('./controllers/upload.js')
+
 var email, name
 var classes = []
 
@@ -23,7 +25,15 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', function(req, res){
   res.sendFile(path.join(__dirname, './google.html'))
-});
+})
+
+app.get("/image/:filename", (req, res) => {
+
+})
+
+app.post('/upload', function(req, res){
+  uploadFile.uploadFile(req, res)
+})
 
 app.get("/get-classes", function(req, res){
   classes = mongoGetClasses(name, email, res)

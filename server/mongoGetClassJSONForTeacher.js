@@ -18,7 +18,7 @@ function mongoGetClassJSONForTeacher(classNumber, name, email, res){
     }
 
     collection.findOne(query).then(result => {
-      res.send(result.students[name].topics)
+      res.send(result)
     })
   })
 }

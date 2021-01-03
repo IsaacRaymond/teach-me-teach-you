@@ -17,7 +17,25 @@ document.addEventListener("DOMContentLoaded", function(){
     shuffleArray()
     loopAndRenderMathJax()
   }
-});
+
+  let imagesPreview = function(input, placeToInsertImagePreview) {
+    if (input.files) {
+      let filesAmount = input.files.length;
+      for (i = 0; i < filesAmount; i++) {
+        let reader = new FileReader();
+        reader.onload = function(event) {
+          $($.parseHTML("<img>"))
+            .attr("src", event.target.result)
+            .appendTo(placeToInsertImagePreview);
+        };
+        reader.readAsDataURL(input.files[i]);
+      }
+    }
+  };
+  $("#input-files").on("change", function() {
+    imagesPreview(this, "div.preview-images");
+  })
+})
 
 function loopAndRenderMathJax(){
   document.getElementById('question-text-1').innerHTML = question1
@@ -55,9 +73,9 @@ function answerSelect(selection){
       topic: topic,
       section: section,
     }).then(response=>{
-      if(response.isTopicComplete){
+      if(response.topicComplete){
         alert('You do not have to continue working on this topic.  You have completed enough!')
-        window.location.href = "http://localhost:3000/class/continue-class/continue-class.html"
+        window.location.href = "http://localhost:3000/class/continue-class/continue-class.html?classNumber="+response.classNumber
       } else {
         alert("Nicely done!  You can keep working on this topic or you can use the back arrow")
         window.location.href = "../../questions/questions.html?text="+textbook+"&section="+section+"&topic="+topic
@@ -75,4 +93,33 @@ function signOut() {
     console.log('User signed out.');
     window.location.href = "../google.html";
   });
+}
+
+function getHelp(){
+
+}
+
+function giveHelp(){
+  document.getElementById("center-right-box").innerHTML = ""
+  var multipleClassMessage = document.createElement('div')
+  multipleClassMessage.innerHTML = `
+  <form class="mt-4"
+  action="/upload"
+  method="POST"
+  enctype="multipart/form-data"
+>
+  <div class="form-group">
+    <input
+      type="file"
+      name="file"
+      id="input-files"
+      class="form-control-file border"
+    />
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<div class="preview-images"></div>
+`
+
+  document.getElementById("center-right-box").appendChild(multipleClassMessage)
 }

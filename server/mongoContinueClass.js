@@ -20,7 +20,7 @@ function mongoContinueClass(name, email, res){
       result.forEach(classItem => classNumbers.push(classItem.id))
 
       if(classNumbers.length == 1){
-        res.send({classEnrollment: true})
+        res.send({classEnrollment: true, classNumber: result[0].id})
       } else if (classNumbers.length >1){
         res.send({multipleClasses: true, classNumbers: classNumbers})
       } else{
