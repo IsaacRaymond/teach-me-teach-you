@@ -11,9 +11,12 @@ const mongoViewClass = require("./server/mongoViewClass")
 const mongoQuestionCorrect = require("./server/mongoQuestionCorrect")
 const mongoGetClassJSON = require("./server/mongoGetClassJSON")
 const mongoGetClassJSONForTeacher = require("./server/mongoGetClassJSONForTeacher")
-const dotenv = require('dotenv')
+const mongoGetImageNumber = require("./server/mongoGetImageNumber")
 
-const uploadFile = require('./controllers/upload.js')
+const googleUpload = require("./server/googleUpload")
+const googleDownload = require("./server/googleDownload")
+
+const dotenv = require('dotenv')
 
 var email, name
 var classes = []
@@ -25,14 +28,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', function(req, res){
   res.sendFile(path.join(__dirname, './google.html'))
-})
-
-app.get("/image/:filename", (req, res) => {
-
-})
-
-app.post('/upload', function(req, res){
-  uploadFile.uploadFile(req, res)
 })
 
 app.get("/get-classes", function(req, res){
@@ -58,8 +53,30 @@ app.post('/join-class', (req, res) =>{
   mongoJoinClass(email, name, req.body.classes, res)
 });
 
-app.get('/students-topics', (req, res) => {
+/*
+app.get('/get-number', (req, res) => {
+  mongoGetImageNumber(function(err, doc){
+    if(err) {
 
+    } else {
+      console.log(doc)
+    }
+  })
+})
+*/
+
+app.post('/upload-image', (req, res) => {
+  mongoGetImageNumber((err, imageNumber) => {
+    if(err){
+
+    } else {
+      googleUpload(req.body.section, req.body.topicName, imageNumber, res)
+    }
+  })
+})
+
+app.post('/download-image', (req, res) => {
+  googleDownload(req.body.section, req.body.topicName, res)
 })
 
 app.post('/question-correct', (req, res) => {
@@ -67,7 +84,6 @@ app.post('/question-correct', (req, res) => {
 })
 
 app.get('/view-class', (req, res) => {
-  console.log('server side')
   mongoViewClass(email, res)
 })
 

@@ -17,24 +17,6 @@ document.addEventListener("DOMContentLoaded", function(){
     shuffleArray()
     loopAndRenderMathJax()
   }
-
-  let imagesPreview = function(input, placeToInsertImagePreview) {
-    if (input.files) {
-      let filesAmount = input.files.length;
-      for (i = 0; i < filesAmount; i++) {
-        let reader = new FileReader();
-        reader.onload = function(event) {
-          $($.parseHTML("<img>"))
-            .attr("src", event.target.result)
-            .appendTo(placeToInsertImagePreview);
-        };
-        reader.readAsDataURL(input.files[i]);
-      }
-    }
-  };
-  $("#input-files").on("change", function() {
-    imagesPreview(this, "div.preview-images");
-  })
 })
 
 function loopAndRenderMathJax(){
@@ -88,37 +70,28 @@ function answerSelect(selection){
 
 
 function signOut() {
-  var auth2 = gapi.auth2.getAuthInstance();
+  var auth2 = gapi.auth2.getAuthInstance()
   auth2.signOut().then(function () {
-    console.log('User signed out.');
-    window.location.href = "../google.html";
-  });
+    console.log('User signed out.')
+    window.location.href = "../google.html"
+  })
 }
 
 function getHelp(){
+  console.log('yes')
+  $.get('../../get-number', {
+    section: section,
+    topicName: topic
+  }).then(response=>{
 
+  })
 }
 
 function giveHelp(){
   document.getElementById("center-right-box").innerHTML = ""
   var multipleClassMessage = document.createElement('div')
   multipleClassMessage.innerHTML = `
-  <form class="mt-4"
-  action="/upload"
-  method="POST"
-  enctype="multipart/form-data"
->
-  <div class="form-group">
-    <input
-      type="file"
-      name="file"
-      id="input-files"
-      class="form-control-file border"
-    />
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-<div class="preview-images"></div>
+
 `
 
   document.getElementById("center-right-box").appendChild(multipleClassMessage)
