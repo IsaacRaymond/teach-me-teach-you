@@ -29,7 +29,7 @@ function displayTable(){
         if (json.hasOwnProperty(key)){
           for (var topic in json[key]){
             var noSpace = topic.replace(/\s/g, '')
-            tableString += "<th>"+key+"</th><th><a href = ../../questions/questions.html?text="+textName+"&section="+key+"&topic="+noSpace+">"+topic+"</></th><th>"+json[key][topic].numberLeft+"</th><th>"+json[key][topic].numberTaught+"</th></tr>"
+            tableString += "<th>"+key+"</th><th><a href = ../../questions/questions.html?text="+textName+"&section="+key+"&topic="+noSpace+"&classNumber="+classNumber+">"+topic+"</></th><th>"+json[key][topic].numberLeft+"</th><th>"+json[key][topic].numberTaught+"</th></tr>"
           }//fill out a row for each topic in the section
         }
       }//looping through each key-value pair in JSON

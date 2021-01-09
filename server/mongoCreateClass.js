@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb')
+const {Storage} = require('@google-cloud/storage')
 
 function mongoCreateClass(email, textbook, res){
-
   const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority"
 
   MongoClient.connect(uri, function(err, client){
@@ -17,6 +17,7 @@ function mongoCreateClass(email, textbook, res){
       } else {
         collection.countDocuments({}).then(totalAmount=>{
           var date = new Date()
+          createStorageBin(totalAmount+1)
           collection.insertOne({
             id: totalAmount+1,
             teacher: email,
@@ -33,6 +34,29 @@ function mongoCreateClass(email, textbook, res){
   })
 }
 
+function createStorageBin(classNumber){
+  const bucketName = ""+process.env.BUCKET+classNumber
+  const storageClass = 'STANDARD'
+  const location = 'US'
 
+  // Creates a client
+  const storage = new Storage()
 
-    module.exports = mongoCreateClass;
+  async function createBucketWithStorageClassAndLocation() {
+    // For default values see: https://cloud.google.com/storage/docs/locations and
+    // https://cloud.google.com/storage/docs/storage-classes
+
+    const [bucket] = await storage.createBucket(bucketName, {
+      location,
+      [storageClass]: true,
+    })
+
+    console.log(
+      `${bucket.name} created with ${storageClass} class in ${location}.`
+    )
+  }
+
+  createBucketWithStorageClassAndLocation()
+}
+
+module.exports = mongoCreateClass

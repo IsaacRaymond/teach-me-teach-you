@@ -1,4 +1,4 @@
-var topic, section, textbook
+var topic, section, textbook, classNumber
 
 document.addEventListener("DOMContentLoaded", function(){
   const queryString = window.location.search
@@ -7,10 +7,11 @@ document.addEventListener("DOMContentLoaded", function(){
   topic = urlParams.get('topic')
   section = urlParams.get('section')
   textbook = urlParams.get('text')
+  classNumber = urlParams.get('classNumber')
 
   var scr = document.createElement('script')
   head = document.head || document.getElementByTagName('head')[0]
-  scr.src = "./"+urlParams.get('text')+"/"+ section +"/"+topic+".js"
+  scr.src = "./"+textbook+"/"+ section +"/"+topic+".js"
   scr.aysnyc = false
   head.insertBefore(scr, head.firstChild)
   scr.onload = function(){
@@ -78,7 +79,6 @@ function signOut() {
 }
 
 function getHelp(){
-  console.log('yes')
   $.get('../../get-number', {
     section: section,
     topicName: topic
@@ -91,8 +91,57 @@ function giveHelp(){
   document.getElementById("center-right-box").innerHTML = ""
   var multipleClassMessage = document.createElement('div')
   multipleClassMessage.innerHTML = `
+  <input type="file" name="file" id="file" multiple>
+  `
 
-`
+
+  /*
+
+  */
 
   document.getElementById("center-right-box").appendChild(multipleClassMessage)
+  const fileUpload = document.getElementById('file')
+  fileUpload.addEventListener("change", handleFile, false)
+}
+
+function handleFile(){
+  var formdata = new FormData()
+  formdata.append('file', this.files[0])
+  formdata.append('classNumber', classNumber)
+  formdata.append('section', section)
+  formdata.append('topic', topic)
+  //const files = this.files
+
+  $.ajax({
+    url:"/upload",
+    type: "POST",
+    contentType: false,
+    processData: false,
+    data: formdata,
+    success: function(){
+      console.log('success')
+    }
+  })
+
+/*
+  $.post('/upload',
+  {
+    files: files[0],
+  }).then(response => {
+
+  })*/
+}
+
+function processPost(){
+  fetch('/upload', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      user: {
+        name: "butts"
+      }
+    })
+  })
 }

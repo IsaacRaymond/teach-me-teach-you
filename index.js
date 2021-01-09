@@ -16,6 +16,12 @@ const mongoGetImageNumber = require("./server/mongoGetImageNumber")
 const googleUpload = require("./server/googleUpload")
 const googleDownload = require("./server/googleDownload")
 
+const multer = require("multer")
+
+const upload = multer({dest: "./"})
+
+const fs = require("fs")
+
 const dotenv = require('dotenv')
 
 var email, name
@@ -65,12 +71,13 @@ app.get('/get-number', (req, res) => {
 })
 */
 
-app.post('/upload-image', (req, res) => {
+app.post('/upload', upload.single("file"), (req, res) => {
   mongoGetImageNumber((err, imageNumber) => {
     if(err){
 
     } else {
-      googleUpload(req.body.section, req.body.topicName, imageNumber, res)
+      console.log('yes yes' + req.body.classNumber)
+      googleUpload(req.file, req.body.classNumber, req.body.section, req.body.topic, imageNumber, res)
     }
   })
 })
