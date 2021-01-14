@@ -10,22 +10,28 @@
 
 body {
   margin: 0px;
+  font-size: 14pt;
 }
 
 .mc-option{
+  margin: 0px 0px 5px 10px;
+  color: black;
+  background: white;
+  border-radius: 7px;
+}
 
+.mc-option:hover{
+  transition: all .2s ease-in-out;
+  cursor: pointer;
+  color: white;
+  background-color: black;
 }
 
 .mc-container{
   position: absolute;
+  text-align: center;
   left: 0;
   bottom: 0;
-}
-
-#mc-option-1{
-}
-
-#mc-option-2{
 }
 
 #box-container{
@@ -37,7 +43,6 @@ body {
 
 #center-left-box{
   padding: 20px;
-  background-color: red;
   width: 600px;
   height: 400px;
   position: relative;
@@ -45,7 +50,6 @@ body {
 
 #center-right-box{
   padding: 20px;
-  background-color: blue;
   width: 600px;
   height: 400px;
   text-align: center;
@@ -63,17 +67,60 @@ user-select: none; /* Standard */
 
   height: 80px;
   width: 300px;
-  color: white;
-  background: black;
+  color: black;
+  background: white;
   border-radius: 20px;
-  margin-bottom: 20px;
 }
 
 button:hover{
-  background-color: white;
-  color: black;
+  background-color: black;
+  color: white;
   cursor: pointer;
 }
+
+input{
+  text-align: center;
+  transition: all .2s ease-in-out;
+  font-size: 30px;
+
+  -webkit-user-select: none; /* Safari */
+-moz-user-select: none; /* Firefox */
+-ms-user-select: none; /* IE10+/Edge */
+user-select: none; /* Standard */
+
+  height: 80px;
+  width: 300px;
+  color: black;
+  background: white;
+  border-radius: 20px;
+}
+
+input:hover{
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.back{
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;  
+}
+
+input[type="file"] {
+    display: none;
+}
+
 
 
 /*

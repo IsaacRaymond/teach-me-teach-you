@@ -73,7 +73,6 @@ function answerSelect(selection){
 function signOut() {
   var auth2 = gapi.auth2.getAuthInstance()
   auth2.signOut().then(function () {
-    console.log('User signed out.')
     window.location.href = "../google.html"
   })
 }
@@ -91,17 +90,21 @@ function giveHelp(){
   document.getElementById("center-right-box").innerHTML = ""
   var multipleClassMessage = document.createElement('div')
   multipleClassMessage.innerHTML = `
-  <input type="file" name="file" id="file" multiple>
+  <label for="file" class="custom-file-upload">Upload a picture</label>
+  <input type="file" name="file" id="file">
+  <div class="back" onclick="giveHelpBackButton()">Back</div>
   `
-
-
-  /*
-
-  */
-
   document.getElementById("center-right-box").appendChild(multipleClassMessage)
   const fileUpload = document.getElementById('file')
   fileUpload.addEventListener("change", handleFile, false)
+}
+
+function giveHelpBackButton(){
+  document.getElementById("center-right-box").innerHTML = ""
+  document.getElementById("center-right-box").innerHTML = `
+  <button onclick=getHelp()>Get help</button>
+  <button onclick=giveHelp()>Give help</button>
+  `
 }
 
 function handleFile(){
@@ -110,38 +113,45 @@ function handleFile(){
   formdata.append('classNumber', classNumber)
   formdata.append('section', section)
   formdata.append('topic', topic)
-  //const files = this.files
 
-  $.ajax({
-    url:"/upload",
-    type: "POST",
-    contentType: false,
-    processData: false,
-    data: formdata,
-    success: function(){
-      console.log('success')
-    }
-  })
-
-/*
-  $.post('/upload',
-  {
-    files: files[0],
-  }).then(response => {
-
-  })*/
-}
-
-function processPost(){
-  fetch('/upload', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      user: {
-        name: "butts"
+  if( fileIsPicture(this.files[0]) ){
+    $.ajax({
+      url:"/upload",
+      type: "POST",
+      contentType: false,
+      processData: false,
+      data: formdata,
+      success: function(){
+        console.log('success')
+      },
+      error: function(req, textStatus, error){
+        alert("Status: " + textStatus)
+        alert("Error: " + error)
+      },
+      complete: function(data){
+        if (data.responseJSON.tooManyPending){
+          alert("You have three teaching documents pending.  Please wait for your instructor to review your previous submissions before submitting new ones")
+        } else {
+          alert('Your picture has been submitted!')
+        }
       }
     })
-  })
+  } else {
+    alert("Please upload file that is .png, .jpeg, .jpg, .tiff, .bmp, .gif, or .HEIC ")
+  }
+}
+
+function fileIsPicture(file){
+  switch (file.name.split('.').pop()){
+    case "png":
+    case "jpeg":
+    case "jpg":
+    case "tiff":
+    case "bmp":
+    case "gif":
+    case "HEIC":
+    return true;
+    default:
+    return false
+  }
 }

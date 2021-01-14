@@ -52,6 +52,7 @@ function readingFile(name, email, text, collection, classNumber, res){
         [testing]: {
           name: name,
           email: email,
+          pendingTeach: [],
           topics
         }
       }

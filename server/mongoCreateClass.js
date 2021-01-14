@@ -23,6 +23,7 @@ function mongoCreateClass(email, textbook, res){
             teacher: email,
             textbook: textbook,
             students: {},
+            pendingDocs: [],
             date: date
           }, (error, result) =>{
             if(error){console.log(error)}
@@ -50,10 +51,6 @@ function createStorageBin(classNumber){
       location,
       [storageClass]: true,
     })
-
-    console.log(
-      `${bucket.name} created with ${storageClass} class in ${location}.`
-    )
   }
 
   createBucketWithStorageClassAndLocation()

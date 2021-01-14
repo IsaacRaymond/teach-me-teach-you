@@ -1,8 +1,6 @@
 const MongoClient = require('mongodb');
 
 var mongoGetImageNumber = function(callback){
-  let butt = 0;
-
   const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority";
 
   MongoClient.connect(uri, function(err, client){

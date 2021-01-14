@@ -12,6 +12,7 @@ const mongoQuestionCorrect = require("./server/mongoQuestionCorrect")
 const mongoGetClassJSON = require("./server/mongoGetClassJSON")
 const mongoGetClassJSONForTeacher = require("./server/mongoGetClassJSONForTeacher")
 const mongoGetImageNumber = require("./server/mongoGetImageNumber")
+const mongoAddImageToTeacherQue = require('./server/mongoAddImageToTeacherQue')
 
 const googleUpload = require("./server/googleUpload")
 const googleDownload = require("./server/googleDownload")
@@ -38,7 +39,6 @@ app.get('/', function(req, res){
 
 app.get("/get-classes", function(req, res){
   classes = mongoGetClasses(name, email, res)
-  console.log(classes)
 })
 
 app.post('/', function(req, res){
@@ -76,8 +76,8 @@ app.post('/upload', upload.single("file"), (req, res) => {
     if(err){
 
     } else {
-      console.log('yes yes' + req.body.classNumber)
-      googleUpload(req.file, req.body.classNumber, req.body.section, req.body.topic, imageNumber, res)
+      //googleUpload(req.file, req.body.classNumber, req.body.section, req.body.topic, imageNumber, res)
+      mongoAddImageToTeacherQue(req.body.classNumber, name, email, imageNumber, res)
     }
   })
 })

@@ -8,7 +8,7 @@ const resizeOptimizeImages = require('resize-optimize-images')
 
 function googleUpload(file, classNumber, section, topic, imageNumber, res){
   updateImageNumber()
-  uploadToLocalStorage(file, section, topic, imageNumber, res)
+  uploadToLocalStorage(file, classNumber, section, topic, imageNumber, res)
 }
 
 function updateImageNumber(){
@@ -35,11 +35,7 @@ function uploadToLocalStorage(file, classNumber, section, topic, imageNumber, re
       console.log(err)
       res.send(500)
     } else {
-      if (fileSizeInBytes > 1000000){
-        resizeImage(file, filepath, classNumber, section, topic, imageNumber, res)
-      } else{
-        uploadToGoogleStorage(filepath, classNumber, section, topic, imageNumber, res)
-      }
+      resizeImage(file, filepath, classNumber, section, topic, imageNumber, res)
     }
   })
 }
@@ -47,8 +43,8 @@ function uploadToLocalStorage(file, classNumber, section, topic, imageNumber, re
 async function resizeImage(file, filepath, classNumber, section, topic, imageNumber, res){
     const options = {
       images: [filepath],
-      width: 300,
-      quality: 50
+      width: 400,
+      quality: 100
     }
     await resizeOptimizeImages(options)
     uploadToGoogleStorage(filepath, classNumber, section, topic, imageNumber, res)
@@ -59,9 +55,6 @@ function uploadToGoogleStorage(filepath, classNumber, section, topic, imageNumbe
     const filename = filepath
 
     // Imports the Google Cloud client library
-
-    console.log('HEY HEY HEYHEY HEY HEY')
-    console.log(bucketName)
     // Creates a client
     const storage = new Storage()
 
@@ -81,7 +74,6 @@ function uploadToGoogleStorage(filepath, classNumber, section, topic, imageNumbe
         },
       })
 
-      console.log(`${filename} uploaded to ${bucketName}.`)
       res.send({fileUploaded: true})
     }
 
