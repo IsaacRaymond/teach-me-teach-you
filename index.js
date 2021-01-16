@@ -13,7 +13,9 @@ const mongoGetClassJSON = require("./server/mongoGetClassJSON")
 const mongoGetClassJSONForTeacher = require("./server/mongoGetClassJSONForTeacher")
 const mongoGetImageNumber = require("./server/mongoGetImageNumber")
 const mongoAddImageToTeacherQue = require('./server/mongoAddImageToTeacherQue')
+const mongoPendingTeaching = require('./server/mongoPendingTeaching')
 
+const googleViewTeachingItem = require('./server/googleViewTeachingItem')
 const googleUpload = require("./server/googleUpload")
 const googleDownload = require("./server/googleDownload")
 
@@ -45,31 +47,23 @@ app.post('/', function(req, res){
   mongoLogin(req.body.name, req.body.email);
   setName(req.body.name)
   setEmail(req.body.email)
-});
+})
+
+app.post('/get-pending-teaching', function(req, res){
+  mongoPendingTeaching(req.body.classNumber, res)
+})
 
 app.post('/create-class', function(req, res){
   mongoCreateClass(email, req.body.textbook, res)
-});
+})
 
 app.post('/continue-class', (req, res) =>{
   mongoContinueClass(name, email, res)
-});
+})
 
 app.post('/join-class', (req, res) =>{
   mongoJoinClass(email, name, req.body.classes, res)
-});
-
-/*
-app.get('/get-number', (req, res) => {
-  mongoGetImageNumber(function(err, doc){
-    if(err) {
-
-    } else {
-      console.log(doc)
-    }
-  })
 })
-*/
 
 app.post('/upload', upload.single("file"), (req, res) => {
   mongoGetImageNumber((err, imageNumber) => {
@@ -77,9 +71,13 @@ app.post('/upload', upload.single("file"), (req, res) => {
 
     } else {
       //googleUpload(req.file, req.body.classNumber, req.body.section, req.body.topic, imageNumber, res)
-      mongoAddImageToTeacherQue(req.body.classNumber, name, email, imageNumber, res)
+      mongoAddImageToTeacherQue(req.body.classNumber, req.body.questionText1, req.body.questionText2, req.body.topicName, name, email, imageNumber, res)
     }
   })
+})
+
+app.post('/view-teaching-items', (req, res) => {
+  googleViewTeachingItem(req.body.section, req.body.topicName, req.body.classNumber, req.body.pictureNumber, email, res)
 })
 
 app.post('/download-image', (req, res) => {

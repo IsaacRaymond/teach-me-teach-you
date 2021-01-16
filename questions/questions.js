@@ -112,7 +112,9 @@ function handleFile(){
   formdata.append('file', this.files[0])
   formdata.append('classNumber', classNumber)
   formdata.append('section', section)
-  formdata.append('topic', topic)
+  formdata.append('topicName', topic)
+  formdata.append('questionText1', question1)
+  formdata.append('questionText2', question2)
 
   if( fileIsPicture(this.files[0]) ){
     $.ajax({
@@ -144,12 +146,19 @@ function handleFile(){
 function fileIsPicture(file){
   switch (file.name.split('.').pop()){
     case "png":
+    case "PNG":
     case "jpeg":
+    case "JPEG":
+    case "JPG":
     case "jpg":
     case "tiff":
+    case "TIFF":
     case "bmp":
+    case "BMP":
     case "gif":
+    case "GIF":
     case "HEIC":
+    case "heic":
     return true;
     default:
     return false

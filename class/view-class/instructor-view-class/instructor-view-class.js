@@ -24,14 +24,12 @@ function displayTable(){
     classNumber: classNumber
   }).then(json => {
     for (var studentName in json.students){
-      console.log('studentName is ' + studentName)
       //Every new student is a new row
       tableString += "<tr>"
       var totalNumberTopics = 0
       var totalNumberLeft = 0
       var numberTaught = 0
       for (var sectionNumber in json.students[studentName].topics){
-        console.log(sectionNumber)
         for (var topicName in json.students[studentName].topics[sectionNumber]){
           totalNumberLeft += json.students[studentName].topics[sectionNumber][topicName].numberLeft
           numberTaught = json.students[studentName].topics[sectionNumber][topicName].numberTaught
@@ -47,4 +45,11 @@ function displayTable(){
     }
     document.getElementById("table").innerHTML = tableString
   })
+}
+
+function approveTeaching(){
+  const queryString = window.location.search
+  const urlParams = new URLSearchParams(queryString)
+  var classNumber = parseInt(urlParams.get('classNumber'))
+  window.location.href = "../instructor-approve/instructor-approve.html?classNumber="+classNumber
 }

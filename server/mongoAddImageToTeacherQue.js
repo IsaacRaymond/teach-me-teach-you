@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb');
 
-function mongoAddImageToTeacherQue(classNumber, name, email, imageNumber, res){
+function mongoAddImageToTeacherQue(classNumber, questionText1, questionText2, topicName, name, email, imageNumber, res){
 
   const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority";
 
@@ -34,7 +34,7 @@ function mongoAddImageToTeacherQue(classNumber, name, email, imageNumber, res){
 
     var updating2 = {
       $push: {
-        pendingDocs: [imageNumber, email]
+        pendingDocs: [name, email, questionText1, questionText2, topicName, imageNumber]
       }
     }
 
