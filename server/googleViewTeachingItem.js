@@ -13,22 +13,23 @@ function googleViewTeachingItem(section, topicName, classNumber, pictureNumber, 
 
     var listClassesString = ""
 
-    collection.findOne({"id": classNumber, "teacher": email}).then(result=>{
-      console.log('here comes the verification')
-      console.log(result)
 
-      googleDownload(sectiion, topicName, pictureNumber, res)
-
+    collection.findOne({"id": parseInt(classNumber), "teacher": email}).then(result=>{
+      if(result){
+        googleDownload(section, topicName, pictureNumber, classNumber, res)
+      } else{
+        res.send({classNotFound: true})
+      }
     })
   })
 }
 
-function googleDownload(section, topicName, pictureNumber res){
-  const bucketName = ""+process.env.BUCKET+"classNumber";
+function googleDownload(section, topicName, pictureNumber, classNumber, res){
+  const bucketName = process.env.BUCKET+""+classNumber;
   const filename = ""+section+"/"+topicName+"/"+pictureNumber
 
   const srcFilename = ""+section+"/"+topicName+"/"+pictureNumber
-  const destFilename = './';
+  const destFilename = "./temp.png"
 
   // Creates a client
   const storage = new Storage();

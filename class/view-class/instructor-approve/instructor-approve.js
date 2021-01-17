@@ -22,9 +22,25 @@ function displayTeachingPending(){
     classNumber: classNumber
   }).then(json => {
     json.pendingDocs.forEach(item => {
-      tableString += "<tr><th>"+item[0]+"</th><th>"+item[1]+"</th><th>"+item[4]+"</th><th>"+item[5]+"</th></tr>"
+      tableString += "<tr class = 'teaching-item' onclick=viewTeachingItems('"+item[4]+"','" + item[5] + "','"+classNumber+"','"+item[6]+"')><th>"+item[0]+"</th><th>"+item[1]+"</th><th>"+item[5]+"</th><th>"+item[6]+"</th></tr>"
     })
     document.getElementById("table").innerHTML = tableString
   })
 
+}
+
+function viewTeachingItems(section, topicName, classNumber, pictureNumber){
+  $.post('/view-teaching-items',
+{
+  section: section,
+  topicName: topicName,
+  classNumber: classNumber,
+  pictureNumber: pictureNumber
+}).then(response => {
+  if(response.classNotFound){
+    alert("No class was found")
+  } else{
+    
+  }
+})
 }

@@ -15,7 +15,7 @@ function mongoPendingTeaching(classNumber, res){
     var database = client.db("tmty");
     var collection = database.collection("classes");
 
-    var studentsEmail = collection.findOne(search).then(result => {
+    collection.findOne(search).then(result => {
       res.send({pendingDocs: result.pendingDocs})
     })
   })

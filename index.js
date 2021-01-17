@@ -70,8 +70,8 @@ app.post('/upload', upload.single("file"), (req, res) => {
     if(err){
 
     } else {
-      //googleUpload(req.file, req.body.classNumber, req.body.section, req.body.topic, imageNumber, res)
-      mongoAddImageToTeacherQue(req.body.classNumber, req.body.questionText1, req.body.questionText2, req.body.topicName, name, email, imageNumber, res)
+      googleUpload(req.file, req.body.classNumber, req.body.section, req.body.topic, imageNumber, res)
+      mongoAddImageToTeacherQue(req.body.classNumber, req.body.questionText1, req.body.questionText2, req.body.section, req.body.topicName, name, email, imageNumber, res)
     }
   })
 })

@@ -46,6 +46,10 @@ user-select: none; /* Standard */
   cursor: pointer;
 }
 
+.teaching-item {
+  cursor: pointer;
+  color: blue;
+}
 
 /*
 
