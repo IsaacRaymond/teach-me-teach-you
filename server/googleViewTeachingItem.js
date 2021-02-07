@@ -46,6 +46,8 @@ function googleDownload(section, topicName, pictureNumber, classNumber, res){
     console.log(
       `gs://${bucketName}/${srcFilename} downloaded to ${destFilename}.`
     )
+
+    res.send({success: true})
   }
 
   downloadFile().catch(console.error)

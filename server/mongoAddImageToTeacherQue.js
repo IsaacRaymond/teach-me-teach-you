@@ -8,7 +8,9 @@ function mongoAddImageToTeacherQue(classNumber, questionText1, questionText2, se
     if (err) throw err;
 
     var database = client.db("tmty");
-    var collection = database.collection("classes");
+    var collection = database.collection("classes")
+
+    var urlForImage = "https://storage.googleapis.com/tmty"+classNumber+"/"+section+"/"+topicName+"/"+imageNumber+".png"
 
     var queryString = "students."+name+".email"
     var queryString2 = "students."+name+".pendingTeach"
@@ -34,7 +36,7 @@ function mongoAddImageToTeacherQue(classNumber, questionText1, questionText2, se
 
     var updating2 = {
       $push: {
-        pendingDocs: [name, email, questionText1, questionText2, section, topicName, imageNumber]
+        pendingDocs: [name, email, questionText1, questionText2, section, topicName, imageNumber, urlForImage]
       }
     }
 
@@ -43,8 +45,8 @@ function mongoAddImageToTeacherQue(classNumber, questionText1, questionText2, se
         res.send({tooManyPending: true})
       } else {
         collection.updateOne(query2, updating).then(result => {
-          collection.updateOne(query3, updating2).then(result =>{
-            res.send({success: true})
+          collection.updateOne(query3, updating2).then(result2 =>{
+
           })
         })
       }

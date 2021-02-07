@@ -24,5 +24,4 @@ function loadTeachingItems(){
     console.log(json)
     document.getElementById("item").innerHTML = tableString
   })
-
 }

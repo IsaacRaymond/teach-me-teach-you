@@ -1,5 +1,6 @@
 const MongoClient = require('mongodb')
 const {Storage} = require('@google-cloud/storage')
+var fs = require('fs')
 
 function mongoCreateClass(email, textbook, res){
   const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority"
@@ -10,6 +11,11 @@ function mongoCreateClass(email, textbook, res){
     var database = client.db("tmty");
     var collection = database.collection("classes");
 
+    fs.readFile('./topics/'+textbook+'-class.json', (err, data) => {
+      if(err) throw err
+
+      let json = JSON.parse(data)
+      let topics = json.topics
 
     collection.countDocuments({teacher: email}).then(result => {
       if(result >= 5){
@@ -23,6 +29,7 @@ function mongoCreateClass(email, textbook, res){
             teacher: email,
             textbook: textbook,
             students: {},
+            topics: topics,
             pendingDocs: [],
             date: date
           }, (error, result) =>{
@@ -32,7 +39,8 @@ function mongoCreateClass(email, textbook, res){
         })//end countDocuments2
       }//end else
     })//end countDocuments 1
-  })
+  })//end file read
+})//end MongoClient.connect
 }
 
 function createStorageBin(classNumber){

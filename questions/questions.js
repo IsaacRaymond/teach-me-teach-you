@@ -139,7 +139,7 @@ function handleFile(){
       }
     })
   } else {
-    alert("Please upload file that is .png, .jpeg, .jpg, .tiff, .bmp, .gif, or .HEIC ")
+    alert("Please upload file thatF is .png, .jpeg, .jpg, .tiff, .bmp, .gif, or .HEIC ")
   }
 }
 

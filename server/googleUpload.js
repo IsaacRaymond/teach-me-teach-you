@@ -30,7 +30,6 @@ function uploadToLocalStorage(file, classNumber, section, topic, imageNumber, re
 
   var filepath = __dirname + "/" + "temp"+path.extname(file.originalname)
 
-  console.log('about to rename')
   fs.rename(file.path, filepath, function(err){
     if (err){
       console.log(err)
@@ -42,10 +41,9 @@ function uploadToLocalStorage(file, classNumber, section, topic, imageNumber, re
 }
 
 async function resizeImage(file, filepath, classNumber, section, topic, imageNumber, res){
-  console.log('resize called')
     const options = {
       images: [filepath],
-      width: 400,
+      width: 600,
       quality: 100
     }
     await resizeOptimizeImages(options)
@@ -66,7 +64,7 @@ function uploadToGoogleStorage(filepath, classNumber, section, topic, imageNumbe
 
         // Support for HTTP requests made with `Accept-Encoding: gzip`
         gzip: true,
-        destination: ""+section+"/"+topic+"/"+imageNumber,
+        destination: ""+section+"/"+topic+"/"+imageNumber+'.png',
         // By setting the option `destination`, you can change the name of the
         // object you are uploading to a bucket.
         metadata: {
@@ -76,7 +74,6 @@ function uploadToGoogleStorage(filepath, classNumber, section, topic, imageNumbe
           cacheControl: 'public, max-age=31536000',
         },
       })
-      console.log('getting updated')
 
       res.send({fileUploaded: true})
     }

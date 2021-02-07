@@ -14,13 +14,14 @@ auth2.signOut().then(function () {
 
 function viewClass(){
   var classSelection = document.getElementById('list-classes').value
-  console.log(text)
-  window.location.href = "./instructor-view-class/instructor-view-class.html?classNumber="+classSelection+"&text="+text
+  sessionStorage.setItem("classSelection", classSelection)
+  sessionStorage.setItem("text", text)
+  //$.post('/instructor-approve.html', {text: text, classNumber: classSelection,})
+  //window.location.href = "./instructor-view-class/instructor-view-class.html?classNumber="+classSelection+"&text="+text
+  window.location.href = "./instructor-view-class/instructor-view-class.html"
 }
 
 function getTeacherClasses(){
-  console.log('getTeacherClasses')
-
   $.get('/view-class',
   {
 
@@ -31,7 +32,6 @@ function getTeacherClasses(){
       alert("You are not currently enrolled as an instructor in a class")
     } else {
       text = response.text
-      console.log(text)
       document.getElementById("list-classes").innerHTML = response.listClassesString
     }
   })

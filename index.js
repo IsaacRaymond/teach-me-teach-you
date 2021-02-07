@@ -14,6 +14,7 @@ const mongoGetClassJSONForTeacher = require("./server/mongoGetClassJSONForTeache
 const mongoGetImageNumber = require("./server/mongoGetImageNumber")
 const mongoAddImageToTeacherQue = require('./server/mongoAddImageToTeacherQue')
 const mongoPendingTeaching = require('./server/mongoPendingTeaching')
+const mongoResolvePendingTeachingDoc = require('./server/mongoResolvePendingTeachingDoc')
 
 const googleViewTeachingItem = require('./server/googleViewTeachingItem')
 const googleUpload = require("./server/googleUpload")
@@ -37,6 +38,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', function(req, res){
   res.sendFile(path.join(__dirname, './google.html'))
+})
+
+app.get('/instructor-approve.html', function(req, res){
+  res.send({text: req.params.text, classNumber: req.params.classNumber})
+})
+
+app.post('/resolve-pending', (req, res)=>{
+  mongoResolvePendingTeachingDoc(req.body.section, req.body.topicName, req.body.classNumber, req.body.pictureNumber)
 })
 
 app.get("/get-classes", function(req, res){
@@ -70,7 +79,11 @@ app.post('/upload', upload.single("file"), (req, res) => {
     if(err){
 
     } else {
-      googleUpload(req.file, req.body.classNumber, req.body.section, req.body.topic, imageNumber, res)
+      console.log('req.body.topics is ' + req.body.topicName)
+      googleUpload(req.file, req.body.classNumber, req.body.section, req.body.topicName, imageNumber, res)
+
+      //if googleUpload detects too many pending docs, res.send happens.  If that happens, need to stop mongoAddImageTo...
+
       mongoAddImageToTeacherQue(req.body.classNumber, req.body.questionText1, req.body.questionText2, req.body.section, req.body.topicName, name, email, imageNumber, res)
     }
   })
