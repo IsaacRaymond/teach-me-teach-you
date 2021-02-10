@@ -51,5 +51,5 @@ function approveTeaching(){
   const queryString = window.location.search
   const urlParams = new URLSearchParams(queryString)
   var classNumber = parseInt(urlParams.get('classNumber'))
-  window.location.href = "../instructor-approve/instructor-approve.html?classNumber="+classNumber
+  window.location.href = "../instructor-approve/instructor-approve.html"
 }

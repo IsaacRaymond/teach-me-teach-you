@@ -55,10 +55,17 @@ function createStorageBin(classNumber){
     // For default values see: https://cloud.google.com/storage/docs/locations and
     // https://cloud.google.com/storage/docs/storage-classes
 
+    const options = {
+      entity: 'allUsers',
+      role: storage.acl.READER_ROLE
+    };
+
     const [bucket] = await storage.createBucket(bucketName, {
       location,
       [storageClass]: true,
     })
+
+    await bucket.acl.default.add(options)
   }
 
   createBucketWithStorageClassAndLocation()

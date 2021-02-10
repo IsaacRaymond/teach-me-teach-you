@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function(){
   displayTeachingPending()
-  console.log('classNumber is ' + sessionStorage.getItem('classSelection'))
 })
 
 function signOut() {
@@ -12,20 +11,18 @@ function signOut() {
 }
 
 function displayTeachingPending(){
-  const queryString = window.location.search
-  const urlParams = new URLSearchParams(queryString)
-  var classNumber = parseInt(urlParams.get('classNumber'))
-
   var tableString = `
   <table><tr><th>Student Name</th><th>Email</th><th>Topic Name</th><th>Picture Number</th>
   `
 
   $.post('/get-pending-teaching',
   {
-    classNumber: classNumber
+    classNumber: sessionStorage.getItem('classSelection')
   }).then(json => {
     json.pendingDocs.forEach(item => {
-      tableString += "<tr class = 'teaching-item' onclick=viewTeachingItems('"+item[4]+"','" + item[5] + "','"+classNumber+"','"+item[6]+"','"+item[0]+"','"+item[1]+"')><th>"+item[0]+"</th><th>"+item[1]+"</th><th>"+item[5]+"</th><th>"+item[6]+"</th></tr>"
+      //tableString += "<tr class = 'teaching-item' onclick=viewTeachingItems('"+item[4]+"','" + item[5] + "','"+sessionStorage.getItem('classSelection')+"','"+item[6]+"','"+item[0].replace(/ /g,"_");+"','"+item[1]+"')><th>"+item[0]+"</th><th>"+item[1]+"</th><th>"+item[5]+"</th><th>"+item[6]+"</th></tr>"
+      tableString += "<tr class = 'teaching-item' onclick=viewTeachingItems('"+item[4]+"','"+item[5]+"',"+sessionStorage.getItem('classSelection')+","+item[6]+",'"+item[0].replace(/ /g,"_")+"','"+item[1]+"')><th>"+item[0]+"</th><th>"+item[1]+"</th><th>"+item[5]+"</th><th>"+item[6]+"</th></tr>"
+
     })
     document.getElementById("table").innerHTML = tableString
   })
