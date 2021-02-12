@@ -12,17 +12,21 @@ auth2.signOut().then(function () {
 });
 }
 
-function displayTable(){
+function displayTable(googleUser){
   const queryString = window.location.search
   const urlParams = new URLSearchParams(queryString)
 
   var classNumber = parseInt(urlParams.get('classNumber'))
 
   var tableString = "<table><tr><th>Section</th><th>Topic</th><th>Questions Left</th><th>Taught</th>"
+auth2.isSignedIn.get()
+  var profile = auth2.currentUser.get().getBasicProfile()
 
   $.post('/get-class-json',
   {
-    classNumber: classNumber
+    classNumber: classNumber,
+    name: profile.getName(),
+    email: profile.getEmail()
   }).then(json => {
       for (var key in json){
         tableString += "<tr>"

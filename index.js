@@ -46,7 +46,7 @@ app.get('/instructor-approve.html', function(req, res){
 })
 
 app.post('/resolve-pending', (req, res)=>{
-  mongoResolvePendingTeachingDoc(req.body.section, req.body.topicName, req.body.classNumber, req.body.pictureNumber, req.body.name, req.body.email, req.body.url, req.body.approve, res)
+  mongoResolvePendingTeachingDoc(req.body.section, req.body.topicName, req.body.classNumber, req.body.pictureNumber, req.body.name, req.body.email, req.body.url, req.body.approve, req.body.index, res)
 })
 
 app.get("/get-classes", function(req, res){
@@ -107,7 +107,7 @@ app.get('/view-class', (req, res) => {
 })
 
 app.post('/get-class-json', (req, res) =>{
-  mongoGetClassJSON(req.body.classNumber, name, email, res)
+  mongoGetClassJSON(req.body.classNumber, req.body.name, req.body.email, res)
 })
 
 app.post("/get-class-json-for-teacher", function(req, res){

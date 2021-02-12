@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb')
 const {Storage} = require('@google-cloud/storage')
 
-function mongoResolvePendingTeachingDoc(section, topicName, classNumber, pictureNumber, name, email, url, approve, res){
+function mongoResolvePendingTeachingDoc(section, topicName, classNumber, pictureNumber, name, email, url, approve, index, res){
   const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority"
 
   MongoClient.connect(uri, function(err, client){
@@ -12,28 +12,37 @@ function mongoResolvePendingTeachingDoc(section, topicName, classNumber, picture
 
 
     if(approve){
-      addTeachingDoc(collection, classNumber, section, topicName, name, email, url)
+      addTeachingDoc(collection, classNumber, section, topicName, name, email, url, index, res)
     } else {
-      deletePendingDoc(collection, classNumber)
+      deletePendingDoc(collection, classNumber, index)
     }
   })
 }
 
-function deletePendingDoc(collection, classNumber){
+function deletePendingDoc(collection, classNumber, index){
   var filter = {
     id: parseInt(classNumber)
   }
 
-  var updateString = "pendingDocs."
+  var updateString = "pendingDocs."+index
 
-  var updating = {
-
+  var unsetting = {
+    $unset: {
+      [updateString]: 1
+    }
   }
 
-  collection.updateOne(filter, )
+  var pulling = {
+    $pull: {
+      "pendingDocs": null
+    }
+  }
+
+  collection.updateOne(filter, unsetting)
+  collection.updateOne(filter, pulling)
 }
 
-function addTeachingDoc(collection, classNumber, section, topicName, name, email, url){
+function addTeachingDoc(collection, classNumber, section, topicName, name, email, url, index, res){
   var filter = {
     id: parseInt(classNumber)
   }
@@ -52,6 +61,9 @@ function addTeachingDoc(collection, classNumber, section, topicName, name, email
   ).then((val) => {
     res.send({successful: true})
   })
+
+  deletePendingDoc(collection, classNumber, index)
+
 }
 
 

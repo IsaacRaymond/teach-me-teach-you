@@ -18,6 +18,7 @@ function mongoGetClassJSON(classNumber, name, email, res){
     }
 
     collection.findOne(query).then(result => {
+      console.log ('name is ' + name)
       res.send(result.students[name].topics)
     })
   })
