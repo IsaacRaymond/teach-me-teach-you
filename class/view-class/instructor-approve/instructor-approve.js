@@ -1,3 +1,5 @@
+var section, topicName, classNumber, pictureNumber, name, email
+
 document.addEventListener("DOMContentLoaded", function(){
   displayTeachingPending()
 })
@@ -14,6 +16,8 @@ function displayTeachingPending(){
   var tableString = `
   <table><tr><th>Student Name</th><th>Email</th><th>Topic Name</th><th>Picture Number</th>
   `
+  //to count which index the value is on
+  var i = 0;
 
   $.post('/get-pending-teaching',
   {
@@ -23,18 +27,28 @@ function displayTeachingPending(){
       //tableString += "<tr class = 'teaching-item' onclick=viewTeachingItems('"+item[4]+"','" + item[5] + "','"+sessionStorage.getItem('classSelection')+"','"+item[6]+"','"+item[0].replace(/ /g,"_");+"','"+item[1]+"')><th>"+item[0]+"</th><th>"+item[1]+"</th><th>"+item[5]+"</th><th>"+item[6]+"</th></tr>"
       tableString += "<tr class = 'teaching-item' onclick=viewTeachingItems('"+item[4]+"','"+item[5]+"',"+sessionStorage.getItem('classSelection')+","+item[6]+",'"+item[0].replace(/ /g,"_")+"','"+item[1]+"')><th>"+item[0]+"</th><th>"+item[1]+"</th><th>"+item[5]+"</th><th>"+item[6]+"</th></tr>"
 
+      section = item[4]
+      topicName = item[5]
+      classNumber = sessionStorage.getItem('classSelection')
+      pictureNumber = item[6]
+      name = item[0]
+      email = item[1]
+      i++
+
     })
     document.getElementById("table").innerHTML = tableString
   })
 
 }
 
-function viewTeachingItems(section, topicName, classNumber, pictureNumber, name, email){
-  var imgText = "https://storage.googleapis.com/tmty"+classNumber+"/"+section+"/"+topicName+"/"+pictureNumber+".png"
-  document.getElementById("img-target").innerHTML = "<img src = "+imgText+"><br/><button id='submit-button' onclick='approvePicture("+section+"','"+topicName+"','"+classNumber+"','"+pictureNumber+"','"+name+"','"+email+")'> Approve </button> <button id='submit-button' onclick='denyPicture()'> Deny </button>"
+function viewTeachingItems(){
+  var urlString = "https://storage.googleapis.com/tmty"+classNumber+"/"+section+"/"+topicName+"/"+pictureNumber+".png"
+  document.getElementById("img-target").innerHTML = "<img src = "+urlString+"><br/><button id='submit-button' onclick='approvePicture()'> Approve </button> <button id='submit-button' onclick='denyPicture()'> Deny </button>"
 }
 
-function approvePicture(section, topicName, classNumber, pictureNumber, name, email){
+function approvePicture(){
+  var urlString = "https://storage.googleapis.com/tmty"+classNumber+"/"+section+"/"+topicName+"/"+pictureNumber+".png"
+
   $.post('/resolve-pending',
 {
   section: section,
@@ -42,18 +56,18 @@ function approvePicture(section, topicName, classNumber, pictureNumber, name, em
   classNumber: classNumber,
   pictureNumber: pictureNumber,
   name: name,
-  email: email
+  email: email,
+  url: ,
+  approve: true
 }).then(response => {
-  if(response.classNotFound){
-    alert("No class was found")
+  if(response.successful){
+    alert("This document has been approved and is now available to help students!")
   } else{
-    if(response.success){
-
-    }
+    alert("FUCK!")
   }
 })
 }
 
 function denyPicture(){
-
+  console.log('deny')
 }

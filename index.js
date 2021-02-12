@@ -15,6 +15,7 @@ const mongoGetImageNumber = require("./server/mongoGetImageNumber")
 const mongoAddImageToTeacherQue = require('./server/mongoAddImageToTeacherQue')
 const mongoPendingTeaching = require('./server/mongoPendingTeaching')
 const mongoResolvePendingTeachingDoc = require('./server/mongoResolvePendingTeachingDoc')
+const mongoApprove = require('./server/mongoApprove')
 
 const googleViewTeachingItem = require('./server/googleViewTeachingItem')
 const googleUpload = require("./server/googleUpload")
@@ -45,7 +46,7 @@ app.get('/instructor-approve.html', function(req, res){
 })
 
 app.post('/resolve-pending', (req, res)=>{
-  mongoResolvePendingTeachingDoc(req.body.section, req.body.topicName, req.body.classNumber, req.body.pictureNumber)
+  mongoResolvePendingTeachingDoc(req.body.section, req.body.topicName, req.body.classNumber, req.body.pictureNumber, req.body.name, req.body.email, req.body.url, req.body.approve, res)
 })
 
 app.get("/get-classes", function(req, res){
