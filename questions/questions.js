@@ -1,4 +1,4 @@
-var topic, section, textbook, classNumber
+var topic, section, textbook, classNumber, name, email
 
 document.addEventListener("DOMContentLoaded", function(){
   const queryString = window.location.search
@@ -19,6 +19,13 @@ document.addEventListener("DOMContentLoaded", function(){
     loopAndRenderMathJax()
   }
 })
+
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  name = profile.getName()
+  email = profile.getEmail()
+}
+
 
 function loopAndRenderMathJax(){
   document.getElementById('question-text-1').innerHTML = question1
@@ -55,6 +62,8 @@ function answerSelect(selection){
     $.post('../../question-correct', {
       topic: topic,
       section: section,
+      name: name,
+      email: email
     }).then(response=>{
       if(response.topicComplete){
         alert('You do not have to continue working on this topic.  You have completed enough!')
@@ -78,11 +87,25 @@ function signOut() {
 }
 
 function getHelp(){
-  $.get('../../get-number', {
-    section: section,
-    topicName: topic
-  }).then(response=>{
+  document.getElementById("center-right-box").innerHTML = '<button onclick="serverCall(true)">Youtube</button><br/><button onclick="serverCall(false)">Picture</button><div class="back" onclick="giveHelpBackButton()">Back</div><div id="resources-go-here"></div>'
+}
 
+function serverCall(isItYoutube){
+  document.getElementById("resources-go-here").innerHTML = "Loading..."
+
+    const queryString = window.location.search
+  const urlParams = new URLSearchParams(queryString)
+
+  $.post('../../get-help', {
+    isItYoutube: isItYoutube,
+    classNumber: urlParams.get('classNumber'),
+    section: urlParams.get('section'),
+    topicName: urlParams.get('topic')
+  }).then(response=>{
+    if(response.noHelp){
+      alert("Unfortunately, no users have submitted help for this file yet")
+    }
+    document.getElementById("resources-go-here").innerHTML = "<image src ="+response.httpLink+">"
   })
 }
 
@@ -91,7 +114,12 @@ function giveHelp(){
   var multipleClassMessage = document.createElement('div')
   multipleClassMessage.innerHTML = `
   <label for="file" class="custom-file-upload">Upload a picture</label>
-  <input type="file" name="file" id="file">
+  <input class="file-submit" type="file" name="file" id="file"></input>
+  <br/>
+  <br/>
+  <input type="text" id="youtube" value="Paste a Youtube video here!" size="80">
+  <br/>
+  <button onClick = "submitYoutube()"> Submit Youtube </button>
   <div class="back" onclick="giveHelpBackButton()">Back</div>
   `
   document.getElementById("center-right-box").appendChild(multipleClassMessage)
@@ -115,8 +143,12 @@ function handleFile(){
   formdata.append('topicName', topic)
   formdata.append('questionText1', question1)
   formdata.append('questionText2', question2)
+  formdata.append('email', email)
+  formdata.append('name', name)
 
   if( fileIsPicture(this.files[0]) ){
+    //document.getElementById("resources-go-here").innerHTML = "Loading..."
+
     $.ajax({
       url:"/upload",
       type: "POST",
@@ -124,7 +156,7 @@ function handleFile(){
       processData: false,
       data: formdata,
       success: function(){
-        console.log('success')
+
       },
       error: function(req, textStatus, error){
         alert("Status: " + textStatus)
@@ -133,13 +165,16 @@ function handleFile(){
       complete: function(data){
         if (data.responseJSON.tooManyPending){
           alert("You have three teaching documents pending.  Please wait for your instructor to review your previous submissions before submitting new ones")
+          //document.getElementById("resources-go-here").innerHTML = ""
         } else {
           alert('Your picture has been submitted!')
+          //document.getElementById("resources-go-here").innerHTML = ""
         }
       }
     })
   } else {
     alert("Please upload file thatF is .png, .jpeg, .jpg, .tiff, .bmp, .gif, or .HEIC ")
+    document.getElementById("resources-go-here").innerHTML = ""
   }
 }
 
@@ -163,4 +198,25 @@ function fileIsPicture(file){
     default:
     return false
   }
+}
+
+function submitYoutube(){
+  var youtubeAddress = document.getElementById('youtube').value
+
+  const youtubeValidRegex = /^(http(s)??\:\/\/)?(www\.)?((youtube\.com\/watch\?v=)|(youtu.be\/))([a-zA-Z0-9\-_])+/
+
+  if(youtubeAddress.match(youtubeValidRegex)){
+      $.post('../../save-youtube-link', {
+        name: name,
+        email: email,
+        section: section,
+        topic: topic,
+        youtubeLink: youtubeAddress
+      }).then(response =>{
+
+      })
+  } else {
+    alert("This is not a valid Youtube link.")
+  }
+
 }

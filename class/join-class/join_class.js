@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
 });
 
+var name, email
+
 function signOut() {
   var auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(function () {
@@ -10,12 +12,20 @@ function signOut() {
   });
 }
 
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  name = profile.getName()
+  email = profile.getEmail()
+}
+
 function createNewStudent(){
   var classCode = document.getElementById("class-code").value
 
   $.post('/join-class',
   {
-    classes: classCode
+    classes: classCode,
+    name: name,
+    email: email
   }).then(function(response){
     if(response.newStudent){
       alert("You have been added to the course")

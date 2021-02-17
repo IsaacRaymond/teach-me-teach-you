@@ -2,12 +2,19 @@ document.addEventListener("DOMContentLoaded", function(){
   loadTeachingItems()
 })
 
+var email
+
 function signOut() {
   var auth2 = gapi.auth2.getAuthInstance()
   auth2.signOut().then(function () {
     console.log('User signed out.')
     window.location.href = "../../google.html"
   })
+}
+
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  email = profile.getEmail()
 }
 
 function loadTeachingItems(){
@@ -19,9 +26,9 @@ function loadTeachingItems(){
 
   $.post('/view-teaching-items',
   {
-    classNumber: classNumber
+    classNumber: classNumber,
+    email: email
   }).then(json => {
-    console.log(json)
     document.getElementById("item").innerHTML = tableString
   })
 }

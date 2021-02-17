@@ -41,6 +41,4 @@ function shuffleArray() {
     mc4 = answerArray[3]
     mc5 = answerArray[4]
     mc6 = answerArray[5]
-
-    console.log('correct answer is ' + correctAnswerIndex)
 }

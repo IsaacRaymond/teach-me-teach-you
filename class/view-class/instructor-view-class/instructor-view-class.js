@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function(){
-  displayTable()
+
 })
 
 function signOut() {
@@ -8,6 +8,13 @@ function signOut() {
     console.log('User signed out.')
     window.location.href = "../../google.html"
   })
+}
+
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  name = profile.getName()
+  email = profile.getEmail()
+    displayTable()
 }
 
 function displayTable(){
@@ -21,7 +28,9 @@ function displayTable(){
 
   $.post('/get-class-json-for-teacher',
   {
-    classNumber: classNumber
+    classNumber: classNumber,
+    name: name,
+    email: email
   }).then(json => {
     for (var studentName in json.students){
       //Every new student is a new row

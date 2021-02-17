@@ -2,8 +2,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
 });
 
+var name, email
+
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
+  name = profile.getName()
   email = profile.getEmail();
   var id_token = googleUser.getAuthResponse().id_token;
 }
@@ -18,7 +21,8 @@ auth2.signOut().then(function () {
 function continueClass(){
   $.post('/continue-class',
   {
-
+    name: name,
+    email: email
   }).then(function(response){
     if(response.classEnrollment){
       window.location.href ="../continue-class/continue-class.html?classNumber="+response.classNumber

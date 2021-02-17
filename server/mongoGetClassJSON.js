@@ -14,12 +14,11 @@ function mongoGetClassJSON(classNumber, name, email, res){
 
     var query = {
       id: parseInt(classNumber),
-      [queryString]: email
     }
 
     collection.findOne(query).then(result => {
-      console.log ('name is ' + name)
-      res.send(result.students[name].topics)
+      var jsonObject = {textbookName: result.textbook, ...result.students[name].topics}
+      res.send(jsonObject)
     })
   })
 }

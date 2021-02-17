@@ -21,6 +21,7 @@ function mongoAddImageToTeacherQue(classNumber, questionText1, questionText2, se
     }
 
     var query2 = {
+      id: parseInt(classNumber),
       [queryString]: email,
     }
 

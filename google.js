@@ -14,6 +14,5 @@ function onSignIn(googleUser) {
       email: profile.getEmail()
     })
     window.location.href = "./class/select/select.html"
-
   }
 }

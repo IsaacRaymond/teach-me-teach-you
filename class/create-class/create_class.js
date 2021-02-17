@@ -1,12 +1,19 @@
 document.addEventListener("DOMContentLoaded", function(){
 
-});
+})
+
+var email
 
 function signOut() {
   var auth2 = gapi.auth2.getAuthInstance()
   auth2.signOut().then(function () {
     window.location.href = "../../google.html"
-  });
+  })
+}
+
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  email = profile.getEmail()
 }
 
 function createNewClass(){
@@ -16,6 +23,7 @@ function createNewClass(){
     $.post('/create-class',
     {
       textbook: choice,
+      email: email
     }).then(response=>{
       if(response.created){
         alert("New class created!")

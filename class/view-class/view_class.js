@@ -1,7 +1,7 @@
-var text
+var text, email
 
 document.addEventListener("DOMContentLoaded", function(){
-  getTeacherClasses();
+
 });
 
 function signOut() {
@@ -10,6 +10,13 @@ auth2.signOut().then(function () {
   console.log('User signed out.');
   window.location.href = "../../google.html";
 });
+}
+
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  name = profile.getName()
+  email = profile.getEmail()
+  getTeacherClasses()
 }
 
 function viewClass(){
@@ -22,9 +29,10 @@ function viewClass(){
 }
 
 function getTeacherClasses(){
-  $.get('/view-class',
+  console.log(email)
+  $.post('/view-class',
   {
-
+    email: email
   }).then(function(response){
     var listClassesString = ""
 
