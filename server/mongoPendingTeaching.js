@@ -16,7 +16,10 @@ function mongoPendingTeaching(classNumber, res){
     var collection = database.collection("classes");
 
     collection.findOne(search).then(result => {
-      res.send({pendingDocs: result.pendingDocs})
+      res.send({
+        pendingPictures: result.pendingDocs.pictures,
+        pendingYoutube: result.pendingDocs.youtubeLinks
+      })
     })
   })
 }

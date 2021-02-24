@@ -104,8 +104,11 @@ function serverCall(isItYoutube){
   }).then(response=>{
     if(response.noHelp){
       alert("Unfortunately, no users have submitted help for this file yet")
+    } else if (response.youtube){
+
+    } else {
+      document.getElementById("resources-go-here").innerHTML = "<image src ="+response.httpLink+">"
     }
-    document.getElementById("resources-go-here").innerHTML = "<image src ="+response.httpLink+">"
   })
 }
 
@@ -211,9 +214,14 @@ function submitYoutube(){
         email: email,
         section: section,
         topic: topic,
+        classNumber: classNumber,
         youtubeLink: youtubeAddress
       }).then(response =>{
-
+        if(response.successful){
+          alert("Your Youtube link has been stored!")
+        } else {
+          alert("NO")
+        }
       })
   } else {
     alert("This is not a valid Youtube link.")

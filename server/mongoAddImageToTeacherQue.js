@@ -14,6 +14,7 @@ function mongoAddImageToTeacherQue(classNumber, questionText1, questionText2, se
 
     var queryString = "students."+name+".email"
     var queryString2 = "students."+name+".pendingTeach"
+    var queryString3 = "pendingDocs.pictures"
 
     var query1 = {
       id: parseInt(classNumber),
@@ -37,7 +38,7 @@ function mongoAddImageToTeacherQue(classNumber, questionText1, questionText2, se
 
     var updating2 = {
       $push: {
-        pendingDocs: [name, email, questionText1, questionText2, section, topicName, imageNumber, urlForImage]
+        [queryString3]: [name, email, questionText1, questionText2, section, topicName, imageNumber, urlForImage]
       }
     }
 

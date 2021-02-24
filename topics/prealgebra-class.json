@@ -1,32 +1,72 @@
 {
    "topics":{
       "1-1":{
-         "IdentifyCountingNumbersandWholeNumbers":[
-            
-         ],
-         "IdentifythePlaceValueofaDigit":[
-            
-         ],
-         "UsePlaceValuetoNameWholeNumbers":[
-            
-         ],
-         "UsePlaceValuetoWriteWholeNumbers":[
-            
-         ],
-         "RoundWholeNumbers":[
-            
-         ],
-         "EverydayMath":[
-            
-         ]
+         "IdentifyCountingNumbersandWholeNumbers":{
+            "pictures":[
+
+            ],
+            "youtubeLinks":[
+
+            ]
+         },
+         "IdentifythePlaceValueofaDigit":{
+            "pictures":[
+
+            ],
+            "youtubeLinks":[
+
+            ]
+         },
+         "UsePlaceValuetoNameWholeNumbers":{
+            "pictures":[
+
+            ],
+            "youtubeLinks":[
+
+            ]
+         },
+         "UsePlaceValuetoWriteWholeNumbers":{
+            "pictures":[
+
+            ],
+            "youtubeLinks":[
+
+            ]
+         },
+         "RoundWholeNumbers":{
+            "pictures":[
+
+            ],
+            "youtubeLinks":[
+
+            ]
+         },
+         "EverydayMath":{
+            "pictures":[
+
+            ],
+            "youtubeLinks":[
+
+            ]
+         }
       },
       "1-2":{
-         "somebullshit":[
-            
-         ],
-         "someotherbullshit":[
-            
-         ]
+         "somebullshit":{
+            "pictures":[
+
+            ],
+            "youtubeLinks":[
+
+            ]
+         },
+         "someotherbullshit":{
+            "pictures":[
+
+            ],
+            "youtubeLinks":[
+
+            ]
+         }
       }
    }
 }

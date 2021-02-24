@@ -9,36 +9,56 @@ function mongoGetHelp(itIsYoutube, classNumber, section, topic, res){
     var database = client.db("tmty")
     var collection = database.collection("classes")
 
-    if(itIsYoutube){
-      getYoutubeLink(classNumber, section, topic, res)
+    if( itIsYoutube == 'true'){
+      getYoutubeLink(collection, classNumber, section, topic, res)
+    } else{
+        getPicture(collection, classNumber, section, topic, res)
     }
-      else{
-        getPicture(classNumber, section, topic, res)
-      }
 
 })//end MongoClient.connect
 }
 
-function getYoutubeLink(classNumber, section, topic, res){
-
-}
-
-function getPicture(classNumber, section, topic, res){
+function getYoutubeLink(collection, classNumber, section, topic, res){
   var query = {
     id: parseInt(classNumber)
   }
 
   collection.findOne(query).then(result =>{
-    if (result.topics[section][topic].length <= 1){
+    if (result.topics[section][topic]["youtubeLinks"].length == 0){
       res.send({noHelp: true})
+    } else {
+      var youtubeSelect = Math.floor(Math.random() * result.topics[section][topic]["youtubeLinks"].length)
+
+      var responseArray = result.topics[section][topic]["youtubeLinks"]
+      var responseLink = responseArray[youtubeSelect]
+
+      res.send({
+        httpLink: responseLink[2],
+        youtube: true
+      })
     }
-    var pictureSelect = Math.floor(Math.random() * result.topics[section][topic].length)
+  })
+}
 
-    var responseArray = result.topics[section][topic]
-    var responsePicture = responseArray[pictureSelect]
+function getPicture(collection, classNumber, section, topic, res){
+  var query = {
+    id: parseInt(classNumber)
+  }
 
-    res.send({httpLink: responsePicture[2]})
+  collection.findOne(query).then(result =>{
+    if (result.topics[section][topic]["pictures"].length == 0){
+      res.send({noHelp: true})
+    } else {
+      var pictureSelect = Math.floor(Math.random() * result.topics[section][topic]["pictures"].length)
 
+      var responseArray = result.topics[section][topic]["pictures"]
+      var responsePicture = responseArray[pictureSelect]
+
+      res.send({
+        httpLink: responsePicture[2],
+        youtube: false
+      })
+    }
   })
 }
 

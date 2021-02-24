@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb');
 
-function mongoSaveYoutubeLink(classNumber, name, res){
+function mongoSaveYoutubeLink(name, email, section, topic, youtubeLink, classNumber, youtubeNumber, res){
 
   const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority";
 
@@ -10,16 +10,41 @@ function mongoSaveYoutubeLink(classNumber, name, res){
     var database = client.db("tmty");
     var collection = database.collection("classes")
 
-    var query = {
+    var queryString = "pendingDocs.youtubeLinks"
+    var queryString2 = "students."+name+".pendingTeach"
+    var queryString3 = "students."+name+".email"
+
+
+    var filter = {
       id: parseInt(classNumber)
     }
 
-    var queryString = "students."+name+".pendingTeach"
+    var update = {
+      $push: {
+        [queryString]: [name, email, "Youtube", "Youtube", section, topic, youtubeNumber, youtubeLink]
+      }
+    }
 
-    collection.findOne({query}).then(response => {
+    var update2 = {
+      $push: {
+        [queryString2]: {
+          type: "youtube",
+          number: youtubeNumber
+        }
+      }
+    }
 
+    collection.findOne(filter).then(result => {
+      if (result.students[name].pendingTeach.length > 2){
+        res.send({tooManyPending: true})
+      } else {
+        collection.updateOne(filter, update).then(response => {
+          collection.updateOne(filter, update2).then(stuff => {
+              res.send({successful: true})
+          })
+        })
+      }
     })
-
   })//End MongoConnnect
 }
 

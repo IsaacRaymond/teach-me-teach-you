@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb')
 const {Storage} = require('@google-cloud/storage')
 
-function mongoResolvePendingTeachingDoc(section, topicName, classNumber, pictureNumber, name, email, url, approve, index, res){
+function mongoResolvePendingTeachingDoc(itIsImage, section, topicName, classNumber, pictureNumber, name, email, url, approve, index, res){
   const uri = "mongodb+srv://"+process.env.USERID+":"+process.env.PASSWORD+"@isaactesting-7scyt.mongodb.net/test?retryWrites=true&w=majority"
 
   MongoClient.connect(uri, function(err, client){
@@ -12,19 +12,26 @@ function mongoResolvePendingTeachingDoc(section, topicName, classNumber, picture
 
 
     if(approve){
-      addTeachingDoc(collection, classNumber, section, topicName, name, email, url, index, res)
+      addTeachingDoc(collection, itIsImage, classNumber, section, topicName, name, email, url, index, res)
     } else {
-      deletePendingDoc(collection, classNumber, index)
+      deletePendingDoc(collection, itIsImage, classNumber, index)
     }
   })
 }
 
-function deletePendingDoc(collection, classNumber, index){
+function deletePendingDoc(collection, itIsImage, classNumber, index){
   var filter = {
     id: parseInt(classNumber)
   }
 
-  var updateString = "pendingDocs."+index
+
+  var updateString
+
+  if(itIsImage){
+    updateString = "pendingDocs.pictures."+index
+  } else {
+    updateString = "pendingDocs.youtubeLinks."+index
+  }
 
   var unsetting = {
     $unset: {
@@ -34,7 +41,10 @@ function deletePendingDoc(collection, classNumber, index){
 
   var pulling = {
     $pull: {
-      "pendingDocs": null
+      "pendingDocs.pictures": null
+    },
+    $pull: {
+      "pendingDocs.youtubeLinks": null
     }
   }
 
@@ -42,12 +52,18 @@ function deletePendingDoc(collection, classNumber, index){
   collection.updateOne(filter, pulling)
 }
 
-function addTeachingDoc(collection, classNumber, section, topicName, name, email, url, index, res){
+function addTeachingDoc(collection, itIsImage, classNumber, section, topicName, name, email, url, index, res){
   var filter = {
     id: parseInt(classNumber)
   }
 
-  var updateString = "topics."+section+"."+topicName
+  var updateString
+
+  if(itIsImage){
+    updateString = "topics."+section+"."+topicName+".pictures"
+  } else{
+    updateString = "topics."+section+"."+topicName+".youtubeLinks"
+  }
 
   var updating = {
     $push: {
@@ -62,7 +78,7 @@ function addTeachingDoc(collection, classNumber, section, topicName, name, email
     res.send({successful: true})
   })
 
-  deletePendingDoc(collection, classNumber, index)
+  deletePendingDoc(collection, itIsImage, classNumber, index)
 
 }
 

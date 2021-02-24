@@ -30,7 +30,10 @@ function mongoCreateClass(email, textbook, res){
             textbook: textbook,
             students: {},
             topics: topics,
-            pendingDocs: [],
+            pendingDocs: {
+              pictures: [],
+              youtubeLinks: []
+            },
             date: date
           }, (error, result) =>{
             if(error){console.log(error)}

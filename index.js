@@ -18,6 +18,7 @@ const mongoResolvePendingTeachingDoc = require('./server/mongoResolvePendingTeac
 const mongoApprove = require('./server/mongoApprove')
 const mongoGetHelp = require('./server/mongoGetHelp')
 const mongoSaveYoutubeLink = require('./server/mongoSaveYoutubeLink')
+const mongoGetYoutubeNumber = require('./server/mongoGetYoutubeNumber')
 
 const googleViewTeachingItem = require('./server/googleViewTeachingItem')
 const googleUpload = require("./server/googleUpload")
@@ -41,7 +42,13 @@ app.get('/', function(req, res){
 })
 
 app.post("/save-youtube-link", function(req, res){
-  mongoSaveYoutubeLink(req.body.name, req.body.email, req.body.section, req.body.topic, req.body.youtubeLink, res)
+  mongoGetYoutubeNumber((err, youtubeNumber) => {
+    if(err){
+      console.log(err)
+    } else {
+    mongoSaveYoutubeLink(req.body.name, req.body.email, req.body.section, req.body.topic, req.body.youtubeLink, req.body.classNumber, youtubeNumber, res)  
+    }
+  })
 })
 
 app.get('/instructor-approve.html', function(req, res){
@@ -49,7 +56,7 @@ app.get('/instructor-approve.html', function(req, res){
 })
 
 app.post('/resolve-pending', (req, res)=>{
-  mongoResolvePendingTeachingDoc(req.body.section, req.body.topicName, req.body.classNumber, req.body.pictureNumber, req.body.name, req.body.email, req.body.url, req.body.approve, req.body.index, res)
+  mongoResolvePendingTeachingDoc(req.body.itIsImage, req.body.section, req.body.topicName, req.body.classNumber, req.body.pictureNumber, req.body.name, req.body.email, req.body.url, req.body.approve, req.body.index, res)
 })
 
 //no fucking clue what this does so I commented it out
@@ -84,7 +91,6 @@ app.post('/upload', upload.single("file"), (req, res) => {
     if(err){
 
     } else {
-      console.log('req.body.topics is ' + req.body.topicName)
       googleUpload(req.file, req.body.classNumber, req.body.section, req.body.topicName, imageNumber, res)
 
       //if googleUpload detects too many pending docs, res.send happens.  If that happens, need to stop mongoAddImageTo...
