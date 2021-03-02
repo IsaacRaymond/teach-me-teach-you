@@ -69,7 +69,7 @@ function answerSelect(selection){
         alert('You do not have to continue working on this topic.  You have completed enough!')
         window.location.href = "http://localhost:3000/class/continue-class/continue-class.html?classNumber="+response.classNumber
       } else {
-        alert("Nicely done!  You can keep working on this topic or you can use the back arrow")
+        alert("Nicely done!  You can keep working on this topic or you can use the back arrow in your web browser.")
         window.location.href = "../../questions/questions.html?text="+textbook+"&section="+section+"&topic="+topic
       }
     })
@@ -105,9 +105,10 @@ function serverCall(isItYoutube){
     if(response.noHelp){
       alert("Unfortunately, no users have submitted help for this file yet")
     } else if (response.youtube){
-
+      var url = response.httpLink.replace("watch?v=", "embed/")
+      document.getElementById("resources-go-here").innerHTML = '<iframe width="560" height="315" src="'+url+ '"&output=embed frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><div id="resources-go-here"></div>'
     } else {
-      document.getElementById("resources-go-here").innerHTML = "<image src ="+response.httpLink+">"
+      document.getElementById("resources-go-here").innerHTML = "<image src ="+response.httpLink+"><div id='resources-go-here'></div>"
     }
   })
 }
@@ -124,6 +125,7 @@ function giveHelp(){
   <br/>
   <button onClick = "submitYoutube()"> Submit Youtube </button>
   <div class="back" onclick="giveHelpBackButton()">Back</div>
+  <div id="resources-go-here"></div>
   `
   document.getElementById("center-right-box").appendChild(multipleClassMessage)
   const fileUpload = document.getElementById('file')
@@ -139,6 +141,7 @@ function giveHelpBackButton(){
 }
 
 function handleFile(){
+  document.getElementById("resources-go-here").innerHTML = "Loading..."
   var formdata = new FormData()
   formdata.append('file', this.files[0])
   formdata.append('classNumber', classNumber)
@@ -168,10 +171,10 @@ function handleFile(){
       complete: function(data){
         if (data.responseJSON.tooManyPending){
           alert("You have three teaching documents pending.  Please wait for your instructor to review your previous submissions before submitting new ones")
-          //document.getElementById("resources-go-here").innerHTML = ""
+          document.getElementById("resources-go-here").innerHTML = ""
         } else {
           alert('Your picture has been submitted!')
-          //document.getElementById("resources-go-here").innerHTML = ""
+          document.getElementById("resources-go-here").innerHTML = ""
         }
       }
     })
@@ -219,6 +222,8 @@ function submitYoutube(){
       }).then(response =>{
         if(response.successful){
           alert("Your Youtube link has been stored!")
+        } else if (response.tooManyPending){
+          alert("You have too many teaching submissions pending review.  Please wait for your instructor to approve some of your teaching documents.")
         } else {
           alert("NO")
         }

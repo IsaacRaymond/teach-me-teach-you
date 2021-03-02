@@ -9,11 +9,12 @@ var mongoGetYoutubeNumber = function(callback){
     var database = client.db("tmty")
     var collection = database.collection("system")
 
-    collection.findOne({}).then(result => {
-      callback(null, result.youtube_number)
+    collection.updateOne({}, {$inc: {youtube_number:1}}).then(response => {
+      collection.findOne({}).then(result => {
+        callback(null, result.youtube_number)
+      })
     })
   })
 }
-
 
 module.exports = mongoGetYoutubeNumber

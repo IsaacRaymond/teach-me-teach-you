@@ -15,26 +15,34 @@ function mongoJoinClass(email, name, classes, res){
     var classNumber = {"id": parseInt(classes)}
 
 
-    //This query is to obtain the textbook
-    collection.findOne(classNumber).then(result => {
-      if(result){
-        var text = result.textbook
+    getTextbook(collection, classNumber, name, email, res)
 
-        var studentQuery = "students."+name+".email"
-
-        collection.countDocuments({[studentQuery]:email}).then(result => {
-          if(result >=6){
-            res.send({"tooManyClasses": true})
-          } else {
-            readingFile(name, email, text, collection, classNumber, res)
-            }
-          })//Close countDocuments//
-      } else {
-        res.send({"noClass": true})
-      }
-    })
   }) //close MongoClient connect
 }//close mongoJoinClass
+
+function getTextbook(collection, classNumber, name, email, res){
+  //This query is to obtain the textbook
+  collection.findOne(classNumber).then(result => {
+    if(result["students"][name]){
+      res.send({alreadyInClass: true})
+    } else if(result){
+      checkNumberOfClasses(email, name, result.textbook, collection, classNumber, res)
+    } else {
+      res.send({"noClass": true})
+    }
+  })
+}
+
+function checkNumberOfClasses(email, name, text, collection, classNumber, res){
+  var studentQuery = "students."+name+".email"
+  collection.countDocuments({[studentQuery]:email}).then(result => {
+    if(result >=6){
+      res.send({"tooManyClasses": true})
+    } else {
+      readingFile(name, email, text, collection, classNumber, res)
+      }
+    })//Close countDocuments//
+}
 
 function readingFile(name, email, text, collection, classNumber, res){
   var queryString = "students."+name+".email"

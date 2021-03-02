@@ -1,16 +1,16 @@
 {
    "topics":{
       "1-1":{
-         "Identify Counting Numbers and Whole Numbers":[3,0],
-         "Identify the Place Value of a Digit":[3,0],
-         "Use Place Value to Name Whole Numbers":[3,0],
-         "Use Place Value to Write Whole Numbers":[3,0],
-         "Round Whole Numbers":[3,0],
-         "Everyday Math":[3,0]
+         "Identify Counting Numbers and Whole Numbers":[3,0,0],
+         "Identify the Place Value of a Digit":[3,0,0],
+         "Use Place Value to Name Whole Numbers":[3,0,0],
+         "Use Place Value to Write Whole Numbers":[3,0,0],
+         "Round Whole Numbers":[3,0,0],
+         "Everyday Math":[3,0,0]
       },
       "1-2":{
-         "some bullshit":[3,0],
-         "some other bullshit":[3,0]
+         "some bullshit":[3,0,0],
+         "some other bullshit":[3,0,0]
       }
    }
 }

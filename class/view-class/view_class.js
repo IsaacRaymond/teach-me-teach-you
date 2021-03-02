@@ -2,18 +2,17 @@ var text, email
 
 document.addEventListener("DOMContentLoaded", function(){
 
-});
+})
 
 function signOut() {
-var auth2 = gapi.auth2.getAuthInstance();
+var auth2 = gapi.auth2.getAuthInstance()
 auth2.signOut().then(function () {
-  console.log('User signed out.');
-  window.location.href = "../../google.html";
-});
+  window.location.href = "../../google.html"
+})
 }
 
 function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
+  var profile = googleUser.getBasicProfile()
   name = profile.getName()
   email = profile.getEmail()
   getTeacherClasses()
@@ -21,7 +20,7 @@ function onSignIn(googleUser) {
 
 function viewClass(){
   var classSelection = document.getElementById('list-classes').value
-  sessionStorage.setItem("classSelection", classSelection)
+  sessionStorage.setItem("classNumber", classSelection)
   sessionStorage.setItem("text", text)
   //$.post('/instructor-approve.html', {text: text, classNumber: classSelection,})
   //window.location.href = "./instructor-view-class/instructor-view-class.html?classNumber="+classSelection+"&text="+text
@@ -29,7 +28,6 @@ function viewClass(){
 }
 
 function getTeacherClasses(){
-  console.log(email)
   $.post('/view-class',
   {
     email: email
@@ -46,5 +44,5 @@ function getTeacherClasses(){
 
   document.getElementById("list-classes").innerHTML = `
     <option>loading... please wait</option>
-  `;
+  `
 }

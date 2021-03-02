@@ -15,8 +15,6 @@ function mongoViewClass(email, res){
     collection.find({"teacher": email}).toArray((e, result)=>{
       var classList = []
 
-      console.log(result)
-
       if(result.length>0){
         result.forEach(classObject => {
           listClassesString += "<option value="+classObject.id+">Class number "+classObject.id+"</option>"

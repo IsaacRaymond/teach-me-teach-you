@@ -38,7 +38,10 @@ function mongoCreateClass(email, textbook, res){
           }, (error, result) =>{
             if(error){console.log(error)}
           })//end insert
-          res.send({created: true})
+          res.send({
+            created: true,
+            classNumber: totalAmount+1
+          })
         })//end countDocuments2
       }//end else
     })//end countDocuments 1

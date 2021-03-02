@@ -32,7 +32,10 @@ function mongoAddImageToTeacherQue(classNumber, questionText1, questionText2, se
 
     var updating = {
       $push: {
-        [queryString2]: imageNumber
+        [queryString2]: {
+          type: "picture",
+          number: imageNumber
+        }
       }
     }
 

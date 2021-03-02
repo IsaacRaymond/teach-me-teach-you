@@ -15,7 +15,6 @@ const mongoGetImageNumber = require("./server/mongoGetImageNumber")
 const mongoAddImageToTeacherQue = require('./server/mongoAddImageToTeacherQue')
 const mongoPendingTeaching = require('./server/mongoPendingTeaching')
 const mongoResolvePendingTeachingDoc = require('./server/mongoResolvePendingTeachingDoc')
-const mongoApprove = require('./server/mongoApprove')
 const mongoGetHelp = require('./server/mongoGetHelp')
 const mongoSaveYoutubeLink = require('./server/mongoSaveYoutubeLink')
 const mongoGetYoutubeNumber = require('./server/mongoGetYoutubeNumber')
@@ -46,7 +45,7 @@ app.post("/save-youtube-link", function(req, res){
     if(err){
       console.log(err)
     } else {
-    mongoSaveYoutubeLink(req.body.name, req.body.email, req.body.section, req.body.topic, req.body.youtubeLink, req.body.classNumber, youtubeNumber, res)  
+    mongoSaveYoutubeLink(req.body.name, req.body.email, req.body.section, req.body.topic, req.body.youtubeLink, req.body.classNumber, youtubeNumber, res)
     }
   })
 })

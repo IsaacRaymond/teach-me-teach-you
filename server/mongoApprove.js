@@ -11,8 +11,6 @@ function mongoApprove(section, topicName, classNumber, pictureNumber, name, emai
     var collection = database.collection("classes")
 
     collection.findOne({id: classNumber}).then(result => {
-      console.log('here comes result')
-      console.log(result)
     })
     deletePendingDoc()
     addTeachingDoc(collection, classNumber)

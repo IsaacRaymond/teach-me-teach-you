@@ -26,7 +26,8 @@ function createNewClass(){
       email: email
     }).then(response=>{
       if(response.created){
-        alert("New class created!")
+        alert("New class created!  Your class number is " + response.classNumber)
+        window.location.href = "../../google.html"
       } else if (response.tooManyClasses){
         alert("Each user is currently limited to five classes")
       } else {

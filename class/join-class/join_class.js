@@ -35,7 +35,9 @@ function createNewStudent(){
     } else if (response.tooManyClasses){
       alert("You can only participate in a maximum of 5 courses")
       window.location.href = "../select/select.html"
-    }
+    } else if (response.alreadyInClass){
+      alert("You are already in this class!")
+    } 
 
   });
 }

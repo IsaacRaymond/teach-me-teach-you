@@ -14,7 +14,6 @@ function mongoGetClassJSONForTeacher(classNumber, name, email, res){
 
     var query = {
       id: parseInt(classNumber),
-      teacher: email
     }
 
     collection.findOne(query).then(result => {

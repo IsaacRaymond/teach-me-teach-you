@@ -3,37 +3,45 @@
       "1-1":{
          "IdentifyCountingNumbersandWholeNumbers":{
             "numberLeft":3,
-            "numberTaught":0
+            "numberTaught":0,
+            "numberTeacherApproved":0
          },
          "IdentifythePlaceValueofaDigit":{
             "numberLeft":3,
-            "numberTaught":0
+            "numberTaught":0,
+            "numberTeacherApproved":0
          },
          "UsePlaceValuetoNameWholeNumbers":{
             "numberLeft":3,
-            "numberTaught":0
+            "numberTaught":0,
+            "numberTeacherApproved":0
          },
          "UsePlaceValuetoWriteWholeNumbers":{
             "numberLeft":3,
-            "numberTaught":0
+            "numberTaught":0,
+            "numberTeacherApproved":0
          },
          "RoundWholeNumbers":{
             "numberLeft":3,
-            "numberTaught":0
+            "numberTaught":0,
+            "numberTeacherApproved":0
          },
          "EverydayMath":{
             "numberLeft":3,
-            "numberTaught":0
+            "numberTaught":0,
+            "numberTeacherApproved":0
          }
       },
       "1-2":{
          "somebullshit":{
             "numberLeft":3,
-            "numberTaught":0
+            "numberTaught":0,
+            "numberTeacherApproved":0
          },
          "someotherbullshit":{
             "numberLeft":3,
-            "numberTaught":0
+            "numberTaught":0,
+            "numberTeacherApproved":0            
          }
       }
    }
